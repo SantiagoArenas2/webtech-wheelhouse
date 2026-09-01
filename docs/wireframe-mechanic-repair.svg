@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="700" viewBox="0 0 980 700">
+  <rect width="980" height="700" fill="#f5f5f5"/>
+  <rect x="30" y="30" width="920" height="640" fill="#ffffff" stroke="#333" stroke-width="2"/>
+  <rect x="60" y="60" width="860" height="60" fill="#eaeaea" stroke="#333"/>
+  <text x="100" y="100" font-family="Arial" font-size="28" font-weight="bold">Repair workflow</text>
+  <text x="760" y="100" font-family="Arial" font-size="20">Mechanic</text>
+
+  <rect x="80" y="170" width="250" height="210" fill="#f3f4f6" stroke="#333"/>
+  <text x="110" y="210" font-family="Arial" font-size="22" font-weight="bold">Bike</text>
+  <text x="110" y="245" font-family="Arial" font-size="18">Customer: Luis Garcia</text>
+  <text x="110" y="275" font-family="Arial" font-size="18">Bike: Trek Marlin</text>
+  <text x="110" y="305" font-family="Arial" font-size="18">Serial: 987654321</text>
+  <text x="110" y="335" font-family="Arial" font-size="18">Promised: Thu</text>
+
+  <rect x="380" y="170" width="500" height="260" fill="#f3f4f6" stroke="#333"/>
+  <text x="410" y="210" font-family="Arial" font-size="22" font-weight="bold">Diagnosis and notes</text>
+  <rect x="410" y="230" width="440" height="150" fill="#fff" stroke="#333"/>
+  <text x="430" y="290" font-family="Arial" font-size="18">Front wheel has a wobble. Need true and spoke inspection.</text>
+  <text x="430" y="325" font-family="Arial" font-size="18">Also noted: brake rub after recent tyre change.</text>
+
+  <rect x="80" y="420" width="800" height="160" fill="#f3f4f6" stroke="#333"/>
+  <text x="110" y="460" font-family="Arial" font-size="22" font-weight="bold">Quote</text>
+  <text x="110" y="500" font-family="Arial" font-size="18">Wheel true — $40</text>
+  <text x="110" y="530" font-family="Arial" font-size="18">Brake bleed — $55</text>
+  <text x="110" y="560" font-family="Arial" font-size="18">Total quoted: $95</text>
+  <rect x="620" y="485" width="170" height="42" fill="#d1d5db" stroke="#333"/>
+  <text x="705" y="512" text-anchor="middle" font-family="Arial" font-size="18">Send quote</text>
+</svg>

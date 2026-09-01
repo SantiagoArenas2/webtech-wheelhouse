@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content ="width=device-width, initial-scale=1.0">
+    <title>Santiago Arenas - My personal site</title>
+    <link rel="stylesheet" href="lab1.css">
+</head>
+<body>
+    <header>
+        <h1>Santiago Arenas</h1>
+        <nav>
+            <ul>
+                <li><a href ="#sobre-mi">About me</a></li>
+                <li><a href ="#habilidades">Skills</a></li>
+                <li><a href ="#coleccion">Library</a></li>
+                <li><a href ="#proyectos">Projects</a></li>
+                <li><a href ="#contacto">Contact</a></li>
+            </ul>
+        </nav>
+        <!-- Requisito 6: Control que cambia el estado -->
+        <button id="theme-toggle" aria-pressed="false">Dark mode</button>
+    </header>
+    <main>
+        <section id ="sobre-mi" aria-labelledby="sobre-mi-h">
+            <h2 id="sobre-mi-h">About me</h2>
+            <p>Santiago Daniel Arenas Pinto, Computer engineering, <time datetime="2023">2023</time>.</p>
+            <p>Hi my name is Santiago Arenas Pinto, im currently studying in Universidad de los Andes, Chile. right now im currently enrolled on the web technologies course, also im working as a personal tutor to help people prepare for the college entrance exams. I also enjoy boxing as a hobby and do that on the free time i havve</p>
+            <blockquote>
+               <p>Doesnt matter how many time you go down, the only thing that matters i that you get back up</p>
+            </blockquote>
+        </section>
+
+        <section id ="habilidades" aria-labelledby="habilidades-h">
+            <h2 id ="habilidades-h">Skills</h2>
+            <ul>
+                <li>C</li>
+                <li>C++</li>
+                <li>Python</li>
+                <li>JavaScript</li>
+                <li>SQL</li>
+                <li>git and github</li>
+            </ul>
+        </section>
+
+        
+        <section id="coleccion" aria-labelledby="coleccion-h">
+            <h2 id="coleccion-h">My Recommended Media</h2>
+            
+            <div class="coleccion-controles">
+                <input type="text" id="filtro-coleccion" placeholder="Filter by title or category...">
+            </div>
+
+            <p id="coleccion-vacia" style="display: none;">Couldnt find any element</p>
+            
+            <ul id="lista-coleccion" class="grid-coleccion"></ul>
+
+            <h3>Add to the list</h3>
+            <form id="form-agregar">
+                <div>
+                    <label for="nuevo-titulo">Title</label>
+                    <input type="text" id="nuevo-titulo" required>
+                </div>
+                <div>
+                    <label for="nueva-categoria">Category</label>
+                    <select id="nueva-categoria" required>
+                        <option value="Programación">Programming</option>
+                        <option value="Historia">History</option>
+                        <option value="Sistema">System</option>
+                    </select>
+                </div>
+                <button type="submit">Add Element</button>
+            </form>
+        </section>
+
+        <section id="proyectos" aria-labelledby="proyectos-h">
+            <h2 id="proyectos-h">Projects</h2>
+            <article>
+                <h3>Hitori</h3>
+                <p>interactive web version of hitori built using HTML, CSS y Javascript</p>
+            </article>
+            <article>
+                <h3>Celestial bodies simulator</h3>
+                <p>created a library to simulate in a simplified way the interactions between celestial bodies in space using c++ and some python</p>
+            </article>
+            <figure>
+                <img src="placeholder_photo.jpg" alt="Hitori screenshot">
+                <figcaption>Hitori preview</figcaption>
+            </figure>
+        </section>
+        
+        <section id="contacto" aria-labelledby ="contacto-h">
+            <h2 id="contacto-h">Contact me</h2>
+            <!-- Requisito 5: Formulario validado sin recargar -->
+            <form id="formulario-contacto" novalidate>
+                <div class="form-group">
+                    <label for="nombre">Name</label>
+                    <input type="text" id="nombre" name="nombre" aria-describedby="error-nombre">
+                    <span id="error-nombre" class="error-msg" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" aria-describedby="error-email">
+                  <span id="error-email" class="error-msg" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="mensaje">Message</label>
+                  <textarea id="mensaje" name="mensaje" rows="5" aria-describedby="error-mensaje"></textarea>
+                  <span id="error-mensaje" class="error-msg" role="alert"></span>
+                </div>
+                <button type="submit">Send</button>
+                <p id="mensaje-exito" style="display: none; color: green; font-weight: bold;">Success</p>
+            </form>
+        </section>
+    </main>
+    
+    <!-- Requisito 1: Script cargado desde archivo externo -->
+    <script src="lab02.js"></script>
+    
+    <footer>
+        <p>
+            <a href ="https://github.com/SantiagoArenas2" target ="_blank" rel="noopener">My github profile</a> |
+            <a href="https://github.com/SantiagoArenas2/webtech-lab-01" target="_blank" rel="noopener">This project repository</a> |
+            <a href="https://www.uandes.cl/" target ="_blank" rel="noopener">My College</a>
+        </p>
+    </footer>
+</body>
+</html>

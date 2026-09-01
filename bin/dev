@@ -1,0 +1,2 @@
+#!/usr/bin/env ruby.exe
+exec "npx", "concurrently", "bin/rails server", "npm run watch:css"
