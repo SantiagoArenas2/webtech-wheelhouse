@@ -1,0 +1,2 @@
+class ServiceCatalogueItem < ApplicationRecord
+end

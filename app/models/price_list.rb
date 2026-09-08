@@ -1,0 +1,2 @@
+class PriceList < ApplicationRecord
+end
