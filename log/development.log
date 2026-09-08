@@ -1,0 +1,424 @@
+  [1m[35m (480.6ms)[0m  [1m[35mCREATE DATABASE "lab04_development" ENCODING = 'unicode' /*application='Lab04'*/[0m
+  [1m[35m (415.1ms)[0m  [1m[35mCREATE DATABASE "lab04_development" ENCODING = 'unicode' /*application='Lab04'*/[0m
+  [1m[35m (313.6ms)[0m  [1m[35mCREATE DATABASE "lab04_development" ENCODING = 'unicode' /*application='Lab04'*/[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[35mSET search_path TO public /*application='Lab04'*/[0m
+  [1m[35m (1227.8ms)[0m  [1m[35mCREATE DATABASE "lab04_development" ENCODING = 'unicode' /*application='Lab04'*/[0m
+  [1m[35mSQL (0.2ms)[0m  [1m[35mSET search_path TO public /*application='Lab04'*/[0m
+  [1m[35m (450.1ms)[0m  [1m[35mCREATE DATABASE "lab04_test" ENCODING = 'unicode' /*application='Lab04'*/[0m
+  [1m[35m (62.1ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY) /*application='Lab04'*/[0m
+  [1m[35m (5.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7550733720231742320) /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.7ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (3.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2026-09-08 22:08:33.369423', '2026-09-08 22:08:33.369427') RETURNING "key" /*application='Lab04'*/[0m
+Migrating to CreateCustomers (20260908120000)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (11.2ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "full_name" character varying NOT NULL, "phone" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.8ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120000') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+Migrating to CreateStaffMembers (20260908120100)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (7.6ms)[0m  [1m[35mCREATE TABLE "staff_members" ("id" bigserial primary key, "full_name" character varying NOT NULL, "role" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120100') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+Migrating to CreateBikes (20260908120200)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (7.4ms)[0m  [1m[35mCREATE TABLE "bikes" ("id" bigserial primary key, "customer_id" bigint NOT NULL, "brand" character varying NOT NULL, "model" character varying NOT NULL, "serial_number" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_bikes_on_customer_id" ON "bikes" ("customer_id") /*application='Lab04'*/[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_bikes_on_serial_number" ON "bikes" ("serial_number") /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120200') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+Migrating to CreatePriceLists (20260908120300)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (5.4ms)[0m  [1m[35mCREATE TABLE "price_lists" ("id" bigserial primary key, "year" integer NOT NULL, "effective_from" date NOT NULL, "effective_to" date, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_price_lists_on_year" ON "price_lists" ("year") /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120300') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+Migrating to CreateServiceCatalogueItems (20260908120400)
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (7.0ms)[0m  [1m[35mCREATE TABLE "service_catalogue_items" ("id" bigserial primary key, "price_list_id" bigint NOT NULL, "name" character varying NOT NULL, "list_price" decimal(8,2) NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_service_catalogue_items_on_price_list_id" ON "service_catalogue_items" ("price_list_id") /*application='Lab04'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_service_catalogue_items_on_price_list_id_and_name" ON "service_catalogue_items" ("price_list_id", "name") /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120400') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+Migrating to CreateRepairJobs (20260908120500)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (6.2ms)[0m  [1m[35mCREATE TABLE "repair_jobs" ("id" bigserial primary key, "bike_id" bigint NOT NULL, "customer_id" bigint NOT NULL, "received_by_staff_id" bigint NOT NULL, "promised_by" date, "status" character varying DEFAULT 'received' NOT NULL, "received_at" timestamp(6) NOT NULL, "ready_at" timestamp(6), "picked_up_at" timestamp(6), "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_repair_jobs_on_bike_id" ON "repair_jobs" ("bike_id") /*application='Lab04'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_repair_jobs_on_customer_id" ON "repair_jobs" ("customer_id") /*application='Lab04'*/[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE INDEX "index_repair_jobs_on_received_by_staff_id" ON "repair_jobs" ("received_by_staff_id") /*application='Lab04'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE INDEX "index_repair_jobs_on_status" ON "repair_jobs" ("status") /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120500') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+Migrating to CreateRepairLineItems (20260908120600)
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[35m (8.3ms)[0m  [1m[35mCREATE TABLE "repair_line_items" ("id" bigserial primary key, "repair_job_id" bigint NOT NULL, "service_catalogue_item_id" bigint NOT NULL, "quoted_price" decimal(8,2), "actual_price" decimal(8,2), "approved_by_customer" boolean, "notes" text, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL) /*application='Lab04'*/[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE INDEX "index_repair_line_items_on_repair_job_id" ON "repair_line_items" ("repair_job_id") /*application='Lab04'*/[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE INDEX "index_repair_line_items_on_service_catalogue_item_id" ON "repair_line_items" ("service_catalogue_item_id") /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20260908120600') RETURNING "version" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(7550733720231742320) /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Lab04'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Lab04'*/[0m
+  [1m[36mStaffMember Load (1.2ms)[0m  [1m[34mSELECT "staff_members".* FROM "staff_members" WHERE "staff_members"."full_name" = 'Nora Higgins' AND "staff_members"."role" = 'counter' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mStaffMember Create (0.6ms)[0m  [1m[32mINSERT INTO "staff_members" ("full_name", "role", "created_at", "updated_at") VALUES ('Nora Higgins', 'counter', '2026-09-08 22:08:34.374344', '2026-09-08 22:08:34.374344') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mStaffMember Load (0.2ms)[0m  [1m[34mSELECT "staff_members".* FROM "staff_members" WHERE "staff_members"."full_name" = 'Miguel Santos' AND "staff_members"."role" = 'mechanic' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mStaffMember Create (4.1ms)[0m  [1m[32mINSERT INTO "staff_members" ("full_name", "role", "created_at", "updated_at") VALUES ('Miguel Santos', 'mechanic', '2026-09-08 22:08:34.384180', '2026-09-08 22:08:34.384180') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mStaffMember Load (0.2ms)[0m  [1m[34mSELECT "staff_members".* FROM "staff_members" WHERE "staff_members"."full_name" = 'Priya Anand' AND "staff_members"."role" = 'mechanic' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mStaffMember Create (3.7ms)[0m  [1m[32mINSERT INTO "staff_members" ("full_name", "role", "created_at", "updated_at") VALUES ('Priya Anand', 'mechanic', '2026-09-08 22:08:34.397935', '2026-09-08 22:08:34.397935') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mStaffMember Load (0.2ms)[0m  [1m[34mSELECT "staff_members".* FROM "staff_members" WHERE "staff_members"."full_name" = 'Owen Baxter' AND "staff_members"."role" = 'mechanic' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mStaffMember Create (3.5ms)[0m  [1m[32mINSERT INTO "staff_members" ("full_name", "role", "created_at", "updated_at") VALUES ('Owen Baxter', 'mechanic', '2026-09-08 22:08:34.410720', '2026-09-08 22:08:34.410720') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.9ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Daniel Ortiz' AND "customers"."phone" = '+56 9 1234 5678' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (0.5ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Daniel Ortiz', '+56 9 1234 5678', '2026-09-08 22:08:34.441931', '2026-09-08 22:08:34.441931') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Camila Fuentes' AND "customers"."phone" = '+56 9 2345 6789' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.3ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Camila Fuentes', '+56 9 2345 6789', '2026-09-08 22:08:34.451930', '2026-09-08 22:08:34.451930') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Ethan Walsh' AND "customers"."phone" = '+44 7700 900123' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.4ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Ethan Walsh', '+44 7700 900123', '2026-09-08 22:08:34.466687', '2026-09-08 22:08:34.466687') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Grace Liu' AND "customers"."phone" = '+1 415 555 0142' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.7ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Grace Liu', '+1 415 555 0142', '2026-09-08 22:08:34.481522', '2026-09-08 22:08:34.481522') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Marco Bellini' AND "customers"."phone" = '+39 320 123 4567' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (3.9ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Marco Bellini', '+39 320 123 4567', '2026-09-08 22:08:34.495389', '2026-09-08 22:08:34.495389') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Isabel Rojas' AND "customers"."phone" = '+56 9 3456 7890' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.1ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Isabel Rojas', '+56 9 3456 7890', '2026-09-08 22:08:34.509045', '2026-09-08 22:08:34.509045') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Tomás Herrera' AND "customers"."phone" = '+56 9 4567 8901' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (3.1ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Tomás Herrera', '+56 9 4567 8901', '2026-09-08 22:08:34.524147', '2026-09-08 22:08:34.524147') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Nina Kowalski' AND "customers"."phone" = '+48 601 234 567' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.0ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Nina Kowalski', '+48 601 234 567', '2026-09-08 22:08:34.536677', '2026-09-08 22:08:34.536677') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Felipe Soto' AND "customers"."phone" = '+56 9 5678 9012' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.0ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Felipe Soto', '+56 9 5678 9012', '2026-09-08 22:08:34.553335', '2026-09-08 22:08:34.553335') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.2ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Aisha Karim' AND "customers"."phone" = '+44 7700 900456' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (2.9ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Aisha Karim', '+44 7700 900456', '2026-09-08 22:08:34.567089', '2026-09-08 22:08:34.567089') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.6ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Lucas Bennett' AND "customers"."phone" = '+1 415 555 0198' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (3.9ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Lucas Bennett', '+1 415 555 0198', '2026-09-08 22:08:34.581903', '2026-09-08 22:08:34.581903') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Load (0.3ms)[0m  [1m[34mSELECT "customers".* FROM "customers" WHERE "customers"."full_name" = 'Renata Silva' AND "customers"."phone" = '+56 9 6789 0123' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mCustomer Create (4.5ms)[0m  [1m[32mINSERT INTO "customers" ("full_name", "phone", "created_at", "updated_at") VALUES ('Renata Silva', '+56 9 6789 0123', '2026-09-08 22:08:34.596374', '2026-09-08 22:08:34.596374') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (1.9ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1001' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (0.7ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (1, 'Trek', 'Marlin 5', 'WH-1001', '2026-09-08 22:08:34.624314', '2026-09-08 22:08:34.624314') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1002' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (3.3ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (2, 'Giant', 'Escape 3', 'WH-1002', '2026-09-08 22:08:34.634734', '2026-09-08 22:08:34.634734') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1003' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (3.4ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (3, 'Specialized', 'Sirrus X', 'WH-1003', '2026-09-08 22:08:34.647480', '2026-09-08 22:08:34.647480') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.3ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1004' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (3.4ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (4, 'Cannondale', 'Quick CX', 'WH-1004', '2026-09-08 22:08:34.664279', '2026-09-08 22:08:34.664279') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.4ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1005' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.3ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (5, 'Trek', 'Marlin 5', 'WH-1005', '2026-09-08 22:08:34.676553', '2026-09-08 22:08:34.676553') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1006' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.1ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (6, 'Giant', 'Talon 3', 'WH-1006', '2026-09-08 22:08:34.690636', '2026-09-08 22:08:34.690636') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1007' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.4ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (7, 'Scott', 'Aspect 950', 'WH-1007', '2026-09-08 22:08:34.704354', '2026-09-08 22:08:34.704354') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.3ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1008' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.1ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (8, 'Specialized', 'Rockhopper', 'WH-1008', '2026-09-08 22:08:34.718050', '2026-09-08 22:08:34.718050') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1009' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.1ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (9, 'Merida', 'Speeder 100', 'WH-1009', '2026-09-08 22:08:34.732048', '2026-09-08 22:08:34.732048') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1010' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (3.6ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (10, 'Cube', 'Attention', 'WH-1010', '2026-09-08 22:08:34.745678', '2026-09-08 22:08:34.745678') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.3ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1011' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (6.9ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (11, 'Bianchi', 'Camaleonte', 'WH-1011', '2026-09-08 22:08:34.759247', '2026-09-08 22:08:34.759247') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1012' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.1ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (11, 'Trek', 'FX 2', 'WH-1012', '2026-09-08 22:08:34.775806', '2026-09-08 22:08:34.775806') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1013' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (4.4ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (12, 'Giant', 'Escape 3', 'WH-1013', '2026-09-08 22:08:34.789394', '2026-09-08 22:08:34.789394') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mBike Load (0.2ms)[0m  [1m[34mSELECT "bikes".* FROM "bikes" WHERE "bikes"."serial_number" = 'WH-1014' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mBike Create (3.3ms)[0m  [1m[32mINSERT INTO "bikes" ("customer_id", "brand", "model", "serial_number", "created_at", "updated_at") VALUES (1, 'Kona', 'Dew', 'WH-1014', '2026-09-08 22:08:34.803292', '2026-09-08 22:08:34.803292') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mPriceList Load (1.6ms)[0m  [1m[34mSELECT "price_lists".* FROM "price_lists" WHERE "price_lists"."year" = 2026 LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mPriceList Create (1.0ms)[0m  [1m[32mINSERT INTO "price_lists" ("year", "effective_from", "effective_to", "created_at", "updated_at") VALUES (2026, '2026-01-01', NULL, '2026-09-08 22:08:34.829865', '2026-09-08 22:08:34.829865') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mPriceList Load (0.4ms)[0m  [1m[34mSELECT "price_lists".* FROM "price_lists" WHERE "price_lists"."year" = 2025 LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mPriceList Create (3.6ms)[0m  [1m[32mINSERT INTO "price_lists" ("year", "effective_from", "effective_to", "created_at", "updated_at") VALUES (2025, '2025-01-01', '2025-12-31', '2026-09-08 22:08:34.841254', '2026-09-08 22:08:34.841254') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mPriceList Load (0.4ms)[0m  [1m[34mSELECT "price_lists".* FROM "price_lists" WHERE "price_lists"."year" = 2024 LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mPriceList Create (3.9ms)[0m  [1m[32mINSERT INTO "price_lists" ("year", "effective_from", "effective_to", "created_at", "updated_at") VALUES (2024, '2024-01-01', '2024-12-31', '2026-09-08 22:08:34.854330', '2026-09-08 22:08:34.854330') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (3.4ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Safety check' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (1.8ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Safety check', 15.0, '2026-09-08 22:08:34.890957', '2026-09-08 22:08:34.890957') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.4ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Brake adjustment' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.9ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Brake adjustment', 20.0, '2026-09-08 22:08:34.903749', '2026-09-08 22:08:34.903749') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Gear adjustment' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.7ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Gear adjustment', 25.0, '2026-09-08 22:08:34.917485', '2026-09-08 22:08:34.917485') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.4ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Puncture repair' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.8ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Puncture repair', 18.0, '2026-09-08 22:08:34.930394', '2026-09-08 22:08:34.930394') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.5ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Tube replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.5ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Tube replacement', 22.0, '2026-09-08 22:08:34.945593', '2026-09-08 22:08:34.945593') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Chain replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.2ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Chain replacement', 30.0, '2026-09-08 22:08:34.959411', '2026-09-08 22:08:34.959411') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Cassette replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.9ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Cassette replacement', 45.0, '2026-09-08 22:08:34.971588', '2026-09-08 22:08:34.971588') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Brake pad replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.0ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Brake pad replacement', 28.0, '2026-09-08 22:08:34.984903', '2026-09-08 22:08:34.984903') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Wheel truing' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.1ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Wheel truing', 35.0, '2026-09-08 22:08:34.998426', '2026-09-08 22:08:34.998426') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Bottom bracket service' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.7ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Bottom bracket service', 50.0, '2026-09-08 22:08:35.012213', '2026-09-08 22:08:35.012213') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Full service' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.6ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Full service', 85.0, '2026-09-08 22:08:35.026539', '2026-09-08 22:08:35.026539') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Bike assembly' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.3ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Bike assembly', 70.0, '2026-09-08 22:08:35.039592', '2026-09-08 22:08:35.039592') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Headset service' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.2ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Headset service', 32.0, '2026-09-08 22:08:35.053858', '2026-09-08 22:08:35.053858') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Fork service' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.3ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Fork service', 60.0, '2026-09-08 22:08:35.067867', '2026-09-08 22:08:35.067867') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Disc brake bleed' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.8ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Disc brake bleed', 40.0, '2026-09-08 22:08:35.081358', '2026-09-08 22:08:35.081358') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Tyre replacement (per wheel)' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.8ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Tyre replacement (per wheel)', 26.0, '2026-09-08 22:08:35.096638', '2026-09-08 22:08:35.096638') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Spoke replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.2ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Spoke replacement', 15.0, '2026-09-08 22:08:35.109702', '2026-09-08 22:08:35.109702') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Handlebar tape replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.1ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Handlebar tape replacement', 18.0, '2026-09-08 22:08:35.123516', '2026-09-08 22:08:35.123516') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Saddle replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.5ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Saddle replacement', 20.0, '2026-09-08 22:08:35.137573', '2026-09-08 22:08:35.137573') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Pedal replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.1ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Pedal replacement', 15.0, '2026-09-08 22:08:35.151538', '2026-09-08 22:08:35.151538') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Derailleur adjustment' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.1ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Derailleur adjustment', 24.0, '2026-09-08 22:08:35.164890', '2026-09-08 22:08:35.164890') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 1 AND "service_catalogue_items"."name" = 'Wheel replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.3ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (1, 'Wheel replacement', 95.0, '2026-09-08 22:08:35.178809', '2026-09-08 22:08:35.178809') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 2 AND "service_catalogue_items"."name" = 'Safety check' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (5.0ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (2, 'Safety check', 13.0, '2026-09-08 22:08:35.192895', '2026-09-08 22:08:35.192895') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.2ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 2 AND "service_catalogue_items"."name" = 'Brake adjustment' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.8ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (2, 'Brake adjustment', 18.0, '2026-09-08 22:08:35.207749', '2026-09-08 22:08:35.207749') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 2 AND "service_catalogue_items"."name" = 'Puncture repair' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (4.3ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (2, 'Puncture repair', 16.0, '2026-09-08 22:08:35.221497', '2026-09-08 22:08:35.221497') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.4ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 2 AND "service_catalogue_items"."name" = 'Chain replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.7ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (2, 'Chain replacement', 27.0, '2026-09-08 22:08:35.234802', '2026-09-08 22:08:35.234802') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.4ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 2 AND "service_catalogue_items"."name" = 'Full service' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.9ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (2, 'Full service', 78.0, '2026-09-08 22:08:35.250346', '2026-09-08 22:08:35.250346') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.5ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 3 AND "service_catalogue_items"."name" = 'Safety check' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.7ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (3, 'Safety check', 12.0, '2026-09-08 22:08:35.267849', '2026-09-08 22:08:35.267849') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.4ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 3 AND "service_catalogue_items"."name" = 'Tube replacement' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.3ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (3, 'Tube replacement', 19.0, '2026-09-08 22:08:35.281440', '2026-09-08 22:08:35.281440') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Load (0.3ms)[0m  [1m[34mSELECT "service_catalogue_items".* FROM "service_catalogue_items" WHERE "service_catalogue_items"."price_list_id" = 3 AND "service_catalogue_items"."name" = 'Full service' LIMIT 1 /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Create (3.9ms)[0m  [1m[32mINSERT INTO "service_catalogue_items" ("price_list_id", "name", "list_price", "created_at", "updated_at") VALUES (3, 'Full service', 72.0, '2026-09-08 22:08:35.294008', '2026-09-08 22:08:35.294008') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mRepairJob Count (2.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "repair_jobs" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (4.0ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (1, 1, 1, NULL, 'received', '2026-09-06 22:08:35.314841', NULL, NULL, '2026-09-08 22:08:35.323249', '2026-09-08 22:08:35.323249') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.3ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (2, 2, 1, NULL, 'awaiting_diagnosis', '2026-09-05 22:08:35.334193', NULL, NULL, '2026-09-08 22:08:35.334442', '2026-09-08 22:08:35.334442') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.6ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (3, 3, 1, '2026-09-11', 'quote_ready', '2026-09-04 22:08:35.343294', NULL, NULL, '2026-09-08 22:08:35.343594', '2026-09-08 22:08:35.343594') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (6.1ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (3, 8, 28.0, NULL, NULL, NULL, '2026-09-08 22:08:35.365639', '2026-09-08 22:08:35.365639') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.6ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (3, 9, 35.0, NULL, NULL, NULL, '2026-09-08 22:08:35.378011', '2026-09-08 22:08:35.378011') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.1ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (4, 4, 1, '2026-09-10', 'awaiting_customer_approval', '2026-09-03 22:08:35.387655', NULL, NULL, '2026-09-08 22:08:35.387958', '2026-09-08 22:08:35.387958') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.6ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (4, 11, 85.0, NULL, NULL, NULL, '2026-09-08 22:08:35.396994', '2026-09-08 22:08:35.396994') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.6ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (5, 5, 1, '2026-09-09', 'in_progress', '2026-09-02 22:08:35.406286', NULL, NULL, '2026-09-08 22:08:35.406679', '2026-09-08 22:08:35.406679') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (5.2ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (5, 6, 30.0, 25.0, TRUE, 'Regular customer — matched last year''s price.', '2026-09-08 22:08:35.416276', '2026-09-08 22:08:35.416276') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.3ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (5, 3, 25.0, 25.0, TRUE, NULL, '2026-09-08 22:08:35.427185', '2026-09-08 22:08:35.427185') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (6, 6, 1, '2026-09-05', 'ready_for_pickup', '2026-08-31 22:08:35.435964', '2026-09-07 22:08:35.436074', NULL, '2026-09-08 22:08:35.436323', '2026-09-08 22:08:35.436323') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.4ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (6, 22, 95.0, 95.0, TRUE, NULL, '2026-09-08 22:08:35.446653', '2026-09-08 22:08:35.446653') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.4ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (7, 7, 1, '2026-08-31', 'picked_up', '2026-08-29 22:08:35.455877', '2026-08-31 22:08:35.455979', '2026-09-01 22:08:35.456003', '2026-09-08 22:08:35.456232', '2026-09-08 22:08:35.456232') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (7, 11, 85.0, 85.0, TRUE, NULL, '2026-09-08 22:08:35.467271', '2026-09-08 22:08:35.467271') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.5ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (8, 8, 1, '2026-09-03', 'picked_up', '2026-09-03 09:00:00', '2026-09-03 15:00:00', '2026-09-03 17:00:00', '2026-09-08 22:08:35.477742', '2026-09-08 22:08:35.477742') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (5.4ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (8, 4, NULL, 18.0, NULL, 'Obvious flat, fixed without a formal quote.', '2026-09-08 22:08:35.487451', '2026-09-08 22:08:35.487451') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (9, 9, 1, NULL, 'declined', '2026-09-02 22:08:35.498649', NULL, NULL, '2026-09-08 22:08:35.498908', '2026-09-08 22:08:35.498908') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.8ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (9, 10, 50.0, NULL, FALSE, 'Customer will replace the bike instead of repairing it.', '2026-09-08 22:08:35.509169', '2026-09-08 22:08:35.509169') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.4ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (10, 10, 1, '2026-09-10', 'in_progress', '2026-09-06 22:08:35.519059', NULL, NULL, '2026-09-08 22:08:35.519310', '2026-09-08 22:08:35.519310') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (10, 15, 40.0, 40.0, TRUE, NULL, '2026-09-08 22:08:35.530712', '2026-09-08 22:08:35.530712') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (10, 2, 20.0, 20.0, TRUE, NULL, '2026-09-08 22:08:35.540610', '2026-09-08 22:08:35.540610') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (4.2ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (10, 18, 18.0, 18.0, TRUE, NULL, '2026-09-08 22:08:35.550381', '2026-09-08 22:08:35.550381') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (11, 11, 1, '2026-09-09', 'ready_for_pickup', '2026-09-04 22:08:35.560575', '2026-09-08 22:08:35.560669', NULL, '2026-09-08 22:08:35.560855', '2026-09-08 22:08:35.560855') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.2ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (11, 7, 45.0, 45.0, TRUE, NULL, '2026-09-08 22:08:35.570439', '2026-09-08 22:08:35.570439') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.1ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (12, 11, 1, NULL, 'awaiting_diagnosis', '2026-09-07 22:08:35.579595', NULL, NULL, '2026-09-08 22:08:35.579881', '2026-09-08 22:08:35.579881') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.1ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (2, 2, 1, '2026-07-27', 'picked_up', '2026-07-25 22:08:35.588475', '2026-07-27 22:08:35.588574', '2026-07-28 22:08:35.588597', '2026-09-08 22:08:35.588801', '2026-09-08 22:08:35.588801') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.8ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (13, 5, 22.0, 22.0, TRUE, NULL, '2026-09-08 22:08:35.598508', '2026-09-08 22:08:35.598508') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (3.8ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (1, 1, 1, '2026-06-12', 'picked_up', '2026-06-10 22:08:35.608342', '2026-06-12 22:08:35.608427', '2026-06-13 22:08:35.608451', '2026-09-08 22:08:35.608641', '2026-09-08 22:08:35.608641') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (14, 2, 20.0, 20.0, TRUE, NULL, '2026-09-08 22:08:35.618851', '2026-09-08 22:08:35.618851') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (4.7ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (14, 1, 1, '2024-11-17', 'picked_up', '2024-11-15 03:00:00', '2024-11-17 03:00:00', '2024-11-18 03:00:00', '2026-09-08 22:08:35.628907', '2026-09-08 22:08:35.628907') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.5ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (15, 28, 12.0, 12.0, TRUE, NULL, '2026-09-08 22:08:35.639750', '2026-09-08 22:08:35.639750') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.6ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (15, 30, 72.0, 72.0, TRUE, NULL, '2026-09-08 22:08:35.649212', '2026-09-08 22:08:35.649212') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairJob Create (2.7ms)[0m  [1m[32mINSERT INTO "repair_jobs" ("bike_id", "customer_id", "received_by_staff_id", "promised_by", "status", "received_at", "ready_at", "picked_up_at", "created_at", "updated_at") VALUES (3, 3, 1, '2026-08-11', 'picked_up', '2026-08-09 22:08:35.658936', '2026-08-11 22:08:35.659009', '2026-08-12 22:08:35.659033', '2026-09-08 22:08:35.659184', '2026-09-08 22:08:35.659184') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Create (3.7ms)[0m  [1m[32mINSERT INTO "repair_line_items" ("repair_job_id", "service_catalogue_item_id", "quoted_price", "actual_price", "approved_by_customer", "notes", "created_at", "updated_at") VALUES (16, 4, 18.0, 18.0, TRUE, NULL, '2026-09-08 22:08:35.668023', '2026-09-08 22:08:35.668023') RETURNING "id" /*application='Lab04'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT /*application='Lab04'*/[0m
+  [1m[36mCustomer Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "customers" /*application='Lab04'*/[0m
+  [1m[36mBike Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "bikes" /*application='Lab04'*/[0m
+  [1m[36mStaffMember Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "staff_members" /*application='Lab04'*/[0m
+  [1m[36mPriceList Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "price_lists" /*application='Lab04'*/[0m
+  [1m[36mServiceCatalogueItem Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "service_catalogue_items" /*application='Lab04'*/[0m
+  [1m[36mRepairJob Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "repair_jobs" /*application='Lab04'*/[0m
+  [1m[36mRepairLineItem Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "repair_line_items" /*application='Lab04'*/[0m
