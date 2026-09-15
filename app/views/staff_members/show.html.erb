@@ -1,0 +1,30 @@
+<% content_for :title, "#{@staff_member.full_name} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Staff</p>
+  <h1><%= @staff_member.full_name %></h1>
+  <p class="lead text-capitalize"><%= @staff_member.role %></p>
+
+  <h2 class="h4 mt-5">Repairs received</h2>
+  <% if @staff_member.repair_jobs.empty? %>
+    <p class="text-muted">No repairs logged under this staff member yet.</p>
+  <% else %>
+    <div class="table-responsive mt-3">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Repair</th>
+            <th scope="col">Bike</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Status</th>
+            <th scope="col">Promised by</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @staff_member.repair_jobs.order(received_at: :desc) %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <%= link_to "← Back to staff", staff_members_path, class: "d-inline-block mt-4" %>
+</section>

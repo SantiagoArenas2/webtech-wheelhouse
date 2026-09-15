@@ -1,0 +1,34 @@
+<% content_for :title, "#{@service.name} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Service</p>
+  <h1><%= @service.name %></h1>
+  <p class="lead"><%= format_money(@service.list_price) %> on the <%= @service.price_list.year %> price list</p>
+
+  <h2 class="h4 mt-5">Repairs that used this service</h2>
+  <% if @service.repair_line_items.empty? %>
+    <p class="text-muted">This service has not been charged on any repair yet.</p>
+  <% else %>
+    <div class="table-responsive mt-3">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Repair</th>
+            <th scope="col">Bike</th>
+            <th scope="col" class="text-end">Charged</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @service.repair_line_items.each do |line_item| %>
+            <tr>
+              <td><%= link_to "##{line_item.repair_job.id}", repair_path(line_item.repair_job) %></td>
+              <td><%= link_to "#{line_item.repair_job.bike.brand} #{line_item.repair_job.bike.model}", bike_path(line_item.repair_job.bike) %></td>
+              <td class="text-end"><%= format_money(line_item.actual_price) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <%= link_to "← Back to services", services_path, class: "d-inline-block mt-4" %>
+</section>

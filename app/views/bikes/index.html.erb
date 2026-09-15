@@ -1,0 +1,24 @@
+<% content_for :title, "Bikes | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">On the rack and on the road</p>
+  <h1>Bikes</h1>
+
+  <% if @bikes.empty? %>
+    <p class="lead mt-4">No bikes yet.</p>
+  <% else %>
+    <div class="table-responsive mt-4">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Bike</th>
+            <th scope="col">Serial number</th>
+            <th scope="col">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @bikes %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</section>

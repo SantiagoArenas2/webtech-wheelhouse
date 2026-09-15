@@ -1,0 +1,31 @@
+<% content_for :title, "#{@bike.brand} #{@bike.model} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Bike</p>
+  <h1><%= @bike.brand %> <%= @bike.model %></h1>
+  <p class="lead">Serial number <%= @bike.serial_number %></p>
+  <p>Owned by <%= link_to @bike.customer.full_name, customer_path(@bike.customer) %></p>
+
+  <h2 class="h4 mt-5">Repairs</h2>
+  <% if @bike.repair_jobs.empty? %>
+    <p class="text-muted">This bike has never been in for a repair.</p>
+  <% else %>
+    <div class="table-responsive mt-3">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Repair</th>
+            <th scope="col">Bike</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Status</th>
+            <th scope="col">Promised by</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @bike.repair_jobs.order(received_at: :desc) %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <%= link_to "← Back to bikes", bikes_path, class: "d-inline-block mt-4" %>
+</section>

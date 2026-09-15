@@ -1,0 +1,28 @@
+<% content_for :title, "#{@customer.full_name} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Customer</p>
+  <h1><%= @customer.full_name %></h1>
+  <p class="lead"><%= @customer.phone %></p>
+
+  <h2 class="h4 mt-5">Bikes</h2>
+  <% if @customer.bikes.empty? %>
+    <p class="text-muted">No bikes on record for this customer.</p>
+  <% else %>
+    <div class="table-responsive mt-3">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Bike</th>
+            <th scope="col">Serial number</th>
+            <th scope="col">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @customer.bikes %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <%= link_to "← Back to customers", customers_path, class: "d-inline-block mt-4" %>
+</section>

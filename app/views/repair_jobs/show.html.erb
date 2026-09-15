@@ -1,0 +1,72 @@
+<% content_for :title, "Repair ##{@repair_job.id} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Repair</p>
+  <h1>
+    Repair #<%= @repair_job.id %>
+    <span class="badge <%= status_badge_class(@repair_job.status) %>"><%= status_label(@repair_job.status) %></span>
+  </h1>
+
+  <dl class="row mt-4">
+    <dt class="col-sm-3">Bike</dt>
+    <dd class="col-sm-9">
+      <%= link_to "#{@repair_job.bike.brand} #{@repair_job.bike.model} (#{@repair_job.bike.serial_number})", bike_path(@repair_job.bike) %>
+    </dd>
+
+    <dt class="col-sm-3">Customer</dt>
+    <dd class="col-sm-9"><%= link_to @repair_job.customer.full_name, customer_path(@repair_job.customer) %></dd>
+
+    <dt class="col-sm-3">Received by</dt>
+    <dd class="col-sm-9"><%= link_to @repair_job.received_by_staff.full_name, staff_member_path(@repair_job.received_by_staff) %></dd>
+
+    <dt class="col-sm-3">Received</dt>
+    <dd class="col-sm-9"><%= format_instant(@repair_job.received_at) %></dd>
+
+    <dt class="col-sm-3">Promised by</dt>
+    <dd class="col-sm-9">
+      <%= format_day(@repair_job.promised_by) %>
+      <% if repair_overdue?(@repair_job) %><span class="badge text-bg-danger ms-2">Overdue</span><% end %>
+    </dd>
+
+    <dt class="col-sm-3">Ready</dt>
+    <dd class="col-sm-9"><%= format_instant(@repair_job.ready_at) %></dd>
+
+    <dt class="col-sm-3">Picked up</dt>
+    <dd class="col-sm-9"><%= format_instant(@repair_job.picked_up_at) %></dd>
+  </dl>
+
+  <h2 class="h4 mt-5">Services charged</h2>
+  <% if @repair_job.repair_line_items.empty? %>
+    <p class="text-muted">No services charged on this repair yet.</p>
+  <% else %>
+    <div class="table-responsive mt-3">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th scope="col">Service</th>
+            <th scope="col" class="text-end">Quoted</th>
+            <th scope="col" class="text-end">Charged</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @repair_job.repair_line_items.each do |line_item| %>
+            <tr>
+              <td><%= link_to line_item.service_catalogue_item.name, service_path(line_item.service_catalogue_item) %></td>
+              <td class="text-end"><%= format_money(line_item.quoted_price) %></td>
+              <td class="text-end"><%= format_money(line_item.actual_price) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="2">Total charged</th>
+            <th class="text-end">
+              <%= format_money(@repair_job.repair_line_items.sum { |li| li.actual_price || li.quoted_price || 0 }) %>
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  <% end %>
+
+  <%= link_to "← Back to repairs", repairs_path, class: "d-inline-block mt-4" %>
+</section>

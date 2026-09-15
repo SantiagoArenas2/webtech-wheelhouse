@@ -1,0 +1,10 @@
+<tr class="<%= "table-danger" if repair_overdue?(repair_job) %>">
+  <td><%= link_to "##{repair_job.id}", repair_path(repair_job) %></td>
+  <td><%= link_to "#{repair_job.bike.brand} #{repair_job.bike.model}", bike_path(repair_job.bike) %></td>
+  <td><%= link_to repair_job.customer.full_name, customer_path(repair_job.customer) %></td>
+  <td><span class="badge <%= status_badge_class(repair_job.status) %>"><%= status_label(repair_job.status) %></span></td>
+  <td>
+    <%= format_day(repair_job.promised_by) %>
+    <% if repair_overdue?(repair_job) %><span class="badge text-bg-danger ms-1">Overdue</span><% end %>
+  </td>
+</tr>
