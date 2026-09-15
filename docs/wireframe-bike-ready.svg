@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620">
+  <rect width="900" height="620" fill="#f5f5f5"/>
+  <rect x="30" y="30" width="840" height="560" fill="#ffffff" stroke="#333" stroke-width="2"/>
+  <rect x="60" y="60" width="780" height="60" fill="#eaeaea" stroke="#333"/>
+  <text x="100" y="100" font-family="Arial" font-size="28" font-weight="bold">Wheelhouse — Is this bike ready?</text>
+  <text x="690" y="100" font-family="Arial" font-size="20">Counter staff</text>
+
+  <rect x="90" y="170" width="720" height="70" fill="#f3f4f6" stroke="#333"/>
+  <text x="120" y="212" font-family="Arial" font-size="22">Search by customer name or phone</text>
+  <rect x="540" y="185" width="180" height="36" fill="#fff" stroke="#333"/>
+  <text x="630" y="208" text-anchor="middle" font-family="Arial" font-size="18">Search</text>
+
+  <rect x="90" y="280" width="720" height="180" fill="#f3f4f6" stroke="#333"/>
+  <text x="120" y="320" font-family="Arial" font-size="22" font-weight="bold">Result</text>
+  <text x="120" y="365" font-family="Arial" font-size="20">Customer: Ana López</text>
+  <text x="120" y="395" font-family="Arial" font-size="20">Bike: Giant Escape</text>
+  <text x="120" y="425" font-family="Arial" font-size="20">Status: Ready for pickup</text>
+  <text x="120" y="455" font-family="Arial" font-size="20">Promised day: Thursday</text>
+
+  <rect x="590" y="490" width="170" height="42" fill="#d1d5db" stroke="#333"/>
+  <text x="675" y="518" text-anchor="middle" font-family="Arial" font-size="18">Call customer</text>
+</svg>
