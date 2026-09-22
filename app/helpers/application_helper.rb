@@ -21,9 +21,6 @@ module ApplicationHelper
     repair_job.status.humanize
   end
 
-  # Built from the enum's own predicate methods, not from the status
-  # strings themselves — the only place a state name is spelled out is
-  # the enum declaration in RepairJob.
   def status_badge_class(repair_job)
     case
     when repair_job.received? || repair_job.awaiting_diagnosis?

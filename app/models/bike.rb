@@ -12,9 +12,6 @@ class Bike < ApplicationRecord
 
   private
 
-  # Bikes get logged by whoever is at the counter; typing "wtu123" and
-  # "WTU 123 " should still collide with an existing serial number, so we
-  # normalize before the uniqueness check runs.
   def normalize_serial_number
     self.serial_number = serial_number.strip.upcase if serial_number.present?
   end

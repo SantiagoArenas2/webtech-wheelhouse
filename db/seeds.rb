@@ -1,19 +1,3 @@
-# Wheelhouse seed data
-#
-# Customers, staff members, bikes, price lists and service catalogue items are
-# each keyed on a natural attribute (serial number, year, a name-and-role or
-# name-and-phone pair) and loaded with find_or_create_by!, so re-running this
-# file does not add duplicates of them.
-#
-# repair_jobs has no natural key of its own, so that whole section — repairs
-# and their line items — is wrapped in a guard that only runs against an empty
-# repairs table. Running the file a second time leaves it untouched.
-#
-# Every write below is a bang method (create!, find_or_create_by!) so a failed
-# insert raises instead of silently leaving the database short of rows.
-# Dates are computed from Date.current / Time.current, not hard-coded, so the
-# "overdue" and "same day" repairs stay true no matter when this file runs.
-
 puts "Seeding staff members..."
 
 counter_staff = StaffMember.find_or_create_by!(full_name: "Nora Higgins", role: "counter")
@@ -53,8 +37,6 @@ bikes = {
   camila_escape:  seed_bike("WH-1002", customers[:camila], "Giant", "Escape 3"),
   ethan_sirrus:   seed_bike("WH-1003", customers[:ethan], "Specialized", "Sirrus X"),
   grace_quick:    seed_bike("WH-1004", customers[:grace], "Cannondale", "Quick CX"),
-  # Same make and model as daniel_marlin above — a different bike, told apart only
-  # by its serial number, per requirement 6.
   marco_marlin:   seed_bike("WH-1005", customers[:marco], "Trek", "Marlin 5"),
   isabel_talon:   seed_bike("WH-1006", customers[:isabel], "Giant", "Talon 3"),
   tomas_aspect:   seed_bike("WH-1007", customers[:tomas], "Scott", "Aspect 950"),
@@ -62,7 +44,6 @@ bikes = {
   felipe_speeder: seed_bike("WH-1009", customers[:felipe], "Merida", "Speeder 100"),
   aisha_cube:     seed_bike("WH-1010", customers[:aisha], "Cube", "Attention"),
   lucas_bianchi:  seed_bike("WH-1011", customers[:lucas], "Bianchi", "Camaleonte"),
-  # Lucas's second bike — the "one customer owns more than one bike" case.
   lucas_fx2:      seed_bike("WH-1012", customers[:lucas], "Trek", "FX 2"),
   renata_escape:  seed_bike("WH-1013", customers[:renata], "Giant", "Escape 3"),
   daniel_kona:    seed_bike("WH-1014", customers[:daniel], "Kona", "Dew")
@@ -152,7 +133,6 @@ if RepairJob.count.zero?
     )
   end
 
-  # 1. received — just dropped off, nothing diagnosed or quoted yet.
   repair_daniel_marlin_current = RepairJob.create!(
     bike_id: bikes[:daniel_marlin].id,
     customer_id: customers[:daniel].id,
@@ -161,7 +141,6 @@ if RepairJob.count.zero?
     received_at: 2.days.ago
   )
 
-  # 2. awaiting_diagnosis — a mechanic hasn't looked at it yet.
   RepairJob.create!(
     bike_id: bikes[:camila_escape].id,
     customer_id: customers[:camila].id,
@@ -170,7 +149,6 @@ if RepairJob.count.zero?
     received_at: 3.days.ago
   )
 
-  # 3. quote_ready — diagnosed, services and prices proposed, not yet answered.
   repair_ethan_sirrus = RepairJob.create!(
     bike_id: bikes[:ethan_sirrus].id,
     customer_id: customers[:ethan].id,
@@ -182,7 +160,6 @@ if RepairJob.count.zero?
   seed_line_item(repair_ethan_sirrus, current_services[:brake_pad_replacement], quoted: 28, actual: nil, approved: nil)
   seed_line_item(repair_ethan_sirrus, current_services[:wheel_truing], quoted: 35, actual: nil, approved: nil)
 
-  # 4. awaiting_customer_approval — quote given, waiting on the customer's answer.
   repair_grace_quick = RepairJob.create!(
     bike_id: bikes[:grace_quick].id,
     customer_id: customers[:grace].id,
@@ -193,8 +170,6 @@ if RepairJob.count.zero?
   )
   seed_line_item(repair_grace_quick, current_services[:full_service], quoted: 85, actual: nil, approved: nil)
 
-  # 5. in_progress — approved and being worked on. This is the discount case:
-  # the mechanic agreed to charge below the published list price.
   repair_marco_marlin = RepairJob.create!(
     bike_id: bikes[:marco_marlin].id,
     customer_id: customers[:marco].id,
@@ -207,8 +182,6 @@ if RepairJob.count.zero?
     notes: "Regular customer — matched last year's price.")
   seed_line_item(repair_marco_marlin, current_services[:gear_adjustment], quoted: 25, actual: 25, approved: true)
 
-  # 6. ready_for_pickup, OVERDUE — promised day has passed and it has not
-  # been handed back.
   repair_isabel_talon = RepairJob.create!(
     bike_id: bikes[:isabel_talon].id,
     customer_id: customers[:isabel].id,
@@ -220,7 +193,6 @@ if RepairJob.count.zero?
   )
   seed_line_item(repair_isabel_talon, current_services[:wheel_replacement], quoted: 95, actual: 95, approved: true)
 
-  # 7. picked_up — completed on time.
   repair_tomas_aspect = RepairJob.create!(
     bike_id: bikes[:tomas_aspect].id,
     customer_id: customers[:tomas].id,
@@ -233,8 +205,6 @@ if RepairJob.count.zero?
   )
   seed_line_item(repair_tomas_aspect, current_services[:full_service], quoted: 85, actual: 85, approved: true)
 
-  # 8. picked_up, SAME DAY — a simple repair that skipped the quote step
-  # (received straight to in_progress) and was finished before closing.
   same_day = 5.days.ago
   repair_nina_rockhopper = RepairJob.create!(
     bike_id: bikes[:nina_rockhopper].id,
@@ -249,7 +219,6 @@ if RepairJob.count.zero?
   seed_line_item(repair_nina_rockhopper, current_services[:puncture_repair], quoted: nil, actual: 18, approved: nil,
     notes: "Obvious flat, fixed without a formal quote.")
 
-  # 9. declined — the customer heard the price and said no.
   repair_felipe_speeder = RepairJob.create!(
     bike_id: bikes[:felipe_speeder].id,
     customer_id: customers[:felipe].id,
@@ -260,7 +229,6 @@ if RepairJob.count.zero?
   seed_line_item(repair_felipe_speeder, current_services[:bottom_bracket_service], quoted: 50, actual: nil, approved: false,
     notes: "Customer will replace the bike instead of repairing it.")
 
-  # 10. in_progress — second example of that state.
   repair_aisha_cube = RepairJob.create!(
     bike_id: bikes[:aisha_cube].id,
     customer_id: customers[:aisha].id,
@@ -273,7 +241,6 @@ if RepairJob.count.zero?
   seed_line_item(repair_aisha_cube, current_services[:brake_adjustment], quoted: 20, actual: 20, approved: true)
   seed_line_item(repair_aisha_cube, current_services[:handlebar_tape_replacement], quoted: 18, actual: 18, approved: true)
 
-  # 11. ready_for_pickup — not overdue, promised day is still ahead.
   repair_lucas_bianchi = RepairJob.create!(
     bike_id: bikes[:lucas_bianchi].id,
     customer_id: customers[:lucas].id,
@@ -285,7 +252,6 @@ if RepairJob.count.zero?
   )
   seed_line_item(repair_lucas_bianchi, current_services[:cassette_replacement], quoted: 45, actual: 45, approved: true)
 
-  # 12. awaiting_diagnosis — second bike Lucas owns, second example of the state.
   RepairJob.create!(
     bike_id: bikes[:lucas_fx2].id,
     customer_id: customers[:lucas].id,
@@ -294,7 +260,6 @@ if RepairJob.count.zero?
     received_at: 1.day.ago
   )
 
-  # 13. picked_up — Camila's bike, second repair on record for it.
   repair_camila_escape_earlier = RepairJob.create!(
     bike_id: bikes[:camila_escape].id,
     customer_id: customers[:camila].id,
@@ -307,9 +272,6 @@ if RepairJob.count.zero?
   )
   seed_line_item(repair_camila_escape_earlier, current_services[:tube_replacement], quoted: 22, actual: 22, approved: true)
 
-  # 14. picked_up — Daniel's Marlin (WH-1001), a second and earlier repair on
-  # the SAME bike as repair #1, so that bike has more than one repair on
-  # different dates.
   repair_daniel_marlin_earlier = RepairJob.create!(
     bike_id: bikes[:daniel_marlin].id,
     customer_id: customers[:daniel].id,
@@ -322,9 +284,6 @@ if RepairJob.count.zero?
   )
   seed_line_item(repair_daniel_marlin_earlier, current_services[:brake_adjustment], quoted: 20, actual: 20, approved: true)
 
-  # 15. picked_up, HISTORICAL — from before last January, priced off a since
-  # -replaced price list. The charged prices differ from what today's list
-  # shows for the same services.
   historical_received = Date.new(two_years_ago, 11, 15).to_time
   repair_daniel_kona_historical = RepairJob.create!(
     bike_id: bikes[:daniel_kona].id,
@@ -339,8 +298,6 @@ if RepairJob.count.zero?
   seed_line_item(repair_daniel_kona_historical, two_years_ago_services[:safety_check], quoted: 12, actual: 12, approved: true)
   seed_line_item(repair_daniel_kona_historical, two_years_ago_services[:full_service], quoted: 72, actual: 72, approved: true)
 
-  # 16. picked_up — Ethan's Sirrus, an earlier job to give that bike more
-  # than one repair too.
   RepairJob.create!(
     bike_id: bikes[:ethan_sirrus].id,
     customer_id: customers[:ethan].id,

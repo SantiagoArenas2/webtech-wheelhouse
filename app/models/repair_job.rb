@@ -1,9 +1,4 @@
 class RepairJob < ApplicationRecord
-  # Spelled exactly as docs/domain-model.md spells the lifecycle, and as
-  # db/seeds.rb writes them. The column is still named "status" — this
-  # lab's brief calls it "state", but that's the same field Lab 5 built;
-  # renaming it isn't allowed ("no migration, keeps its type and its
-  # default"), so the enum just declares it under its existing name.
   enum :status, {
     received: "received",
     awaiting_diagnosis: "awaiting_diagnosis",
@@ -17,18 +12,12 @@ class RepairJob < ApplicationRecord
 
   belongs_to :bike, inverse_of: :repair_jobs
   belongs_to :customer
-  # received_by_staff_id is NOT NULL in this schema (the counter always
-  # logs who took the bike in), so this belongs_to is required, not
-  # optional. Nothing in our domain model ended up with a nullable _id
-  # column, so the "optional: true" case this lab describes doesn't apply
-  # to any association here.
   belongs_to :received_by_staff, class_name: "StaffMember", foreign_key: :received_by_staff_id, inverse_of: :repair_jobs
 
   has_many :repair_line_items, dependent: :destroy
   has_many :services, through: :repair_line_items, source: :service_catalogue_item
 
   scope :newest_first, -> { order(received_at: :desc) }
-  # "Open" = not yet handed back to the customer.
   scope :open, -> { where.not(status: statuses[:picked_up]) }
   scope :overdue, -> { open.where("promised_by < ?", Date.current) }
 
@@ -70,14 +59,10 @@ class RepairJob < ApplicationRecord
     end
   end
 
-  # States reached only after the customer has been asked whether to go
-  # ahead — including declined, since that IS the customer's answer.
   def customer_answer_expected?
     in_progress? || ready_for_pickup? || picked_up? || declined?
   end
 
-  # A line item that was never formally quoted (an obvious walk-up repair)
-  # never needed the customer's approval in the first place.
   def quoted_line_item_missing_answer?
     repair_line_items.any? { |line| line.quoted_price.present? && line.approved_by_customer.nil? }
   end
