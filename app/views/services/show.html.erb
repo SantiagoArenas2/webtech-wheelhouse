@@ -5,7 +5,7 @@
   <p class="lead"><%= format_money(@service.list_price) %> on the <%= @service.price_list.year %> price list</p>
 
   <h2 class="h4 mt-5">Repairs that used this service</h2>
-  <% if @service.repair_line_items.empty? %>
+  <% if @repair_line_items.empty? %>
     <p class="text-muted">This service has not been charged on any repair yet.</p>
   <% else %>
     <div class="table-responsive mt-3">
@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @service.repair_line_items.each do |line_item| %>
+          <% @repair_line_items.each do |line_item| %>
             <tr>
               <td><%= link_to "##{line_item.repair_job.id}", repair_path(line_item.repair_job) %></td>
               <td><%= link_to "#{line_item.repair_job.bike.brand} #{line_item.repair_job.bike.model}", bike_path(line_item.repair_job.bike) %></td>

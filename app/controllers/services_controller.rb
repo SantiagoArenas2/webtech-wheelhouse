@@ -1,17 +1,16 @@
 class ServicesController < ApplicationController
   def index
-    current_price_list = PriceList.where("effective_from <= ?", Date.current)
-                                   .order(effective_from: :desc)
-                                   .first
+    current_price_list = PriceList.current.first
 
     @services = if current_price_list
-      ServiceCatalogueItem.where(price_list_id: current_price_list.id).order(:name)
+      current_price_list.service_catalogue_items.by_name
     else
       ServiceCatalogueItem.none
     end
   end
 
   def show
-    @service = ServiceCatalogueItem.find(params[:id])
+    @service = ServiceCatalogueItem.includes(:price_list).find(params[:id])
+    @repair_line_items = @service.repair_line_items.in_order.includes(repair_job: :bike)
   end
 end

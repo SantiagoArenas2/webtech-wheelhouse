@@ -5,7 +5,7 @@
   <p class="lead"><%= @customer.phone %></p>
 
   <h2 class="h4 mt-5">Bikes</h2>
-  <% if @customer.bikes.empty? %>
+  <% if @bikes.empty? %>
     <p class="text-muted">No bikes on record for this customer.</p>
   <% else %>
     <div class="table-responsive mt-3">
@@ -18,7 +18,7 @@
           </tr>
         </thead>
         <tbody>
-          <%= render @customer.bikes %>
+          <%= render @bikes %>
         </tbody>
       </table>
     </div>

@@ -5,7 +5,7 @@
   <p class="lead text-capitalize"><%= @staff_member.role %></p>
 
   <h2 class="h4 mt-5">Repairs received</h2>
-  <% if @staff_member.repair_jobs.empty? %>
+  <% if @repair_jobs.empty? %>
     <p class="text-muted">No repairs logged under this staff member yet.</p>
   <% else %>
     <div class="table-responsive mt-3">
@@ -20,7 +20,7 @@
           </tr>
         </thead>
         <tbody>
-          <%= render @staff_member.repair_jobs.order(received_at: :desc) %>
+          <%= render @repair_jobs %>
         </tbody>
       </table>
     </div>

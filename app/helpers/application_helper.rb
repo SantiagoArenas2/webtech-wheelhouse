@@ -1,15 +1,4 @@
 module ApplicationHelper
-  STATUS_BADGE_CLASSES = {
-    "received" => "text-bg-secondary",
-    "awaiting_diagnosis" => "text-bg-secondary",
-    "quote_ready" => "text-bg-info",
-    "awaiting_customer_approval" => "text-bg-warning",
-    "in_progress" => "text-bg-primary",
-    "ready_for_pickup" => "text-bg-success",
-    "picked_up" => "text-bg-dark",
-    "declined" => "text-bg-danger"
-  }.freeze
-
   def format_money(amount)
     return "—" if amount.nil?
 
@@ -28,17 +17,29 @@ module ApplicationHelper
     datetime.strftime("%b %-d, %Y %-l:%M %p")
   end
 
-  def status_label(status)
-    status.humanize
+  def status_label(repair_job)
+    repair_job.status.humanize
   end
 
-  def status_badge_class(status)
-    STATUS_BADGE_CLASSES.fetch(status, "text-bg-secondary")
-  end
-
-  def repair_overdue?(repair_job)
-    repair_job.promised_by.present? &&
-      repair_job.picked_up_at.nil? &&
-      repair_job.promised_by < Date.current
+  # Built from the enum's own predicate methods, not from the status
+  # strings themselves — the only place a state name is spelled out is
+  # the enum declaration in RepairJob.
+  def status_badge_class(repair_job)
+    case
+    when repair_job.received? || repair_job.awaiting_diagnosis?
+      "text-bg-secondary"
+    when repair_job.quote_ready?
+      "text-bg-info"
+    when repair_job.awaiting_customer_approval?
+      "text-bg-warning"
+    when repair_job.in_progress?
+      "text-bg-primary"
+    when repair_job.ready_for_pickup?
+      "text-bg-success"
+    when repair_job.picked_up?
+      "text-bg-dark"
+    when repair_job.declined?
+      "text-bg-danger"
+    end
   end
 end

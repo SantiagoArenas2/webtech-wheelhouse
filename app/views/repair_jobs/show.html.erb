@@ -3,7 +3,7 @@
   <p class="eyebrow">Repair</p>
   <h1>
     Repair #<%= @repair_job.id %>
-    <span class="badge <%= status_badge_class(@repair_job.status) %>"><%= status_label(@repair_job.status) %></span>
+    <span class="badge <%= status_badge_class(@repair_job) %>"><%= status_label(@repair_job) %></span>
   </h1>
 
   <dl class="row mt-4">
@@ -24,7 +24,7 @@
     <dt class="col-sm-3">Promised by</dt>
     <dd class="col-sm-9">
       <%= format_day(@repair_job.promised_by) %>
-      <% if repair_overdue?(@repair_job) %><span class="badge text-bg-danger ms-2">Overdue</span><% end %>
+      <% if @repair_job.overdue? %><span class="badge text-bg-danger ms-2">Overdue</span><% end %>
     </dd>
 
     <dt class="col-sm-3">Ready</dt>
@@ -35,7 +35,7 @@
   </dl>
 
   <h2 class="h4 mt-5">Services charged</h2>
-  <% if @repair_job.repair_line_items.empty? %>
+  <% if @repair_line_items.empty? %>
     <p class="text-muted">No services charged on this repair yet.</p>
   <% else %>
     <div class="table-responsive mt-3">
@@ -48,7 +48,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @repair_job.repair_line_items.each do |line_item| %>
+          <% @repair_line_items.each do |line_item| %>
             <tr>
               <td><%= link_to line_item.service_catalogue_item.name, service_path(line_item.service_catalogue_item) %></td>
               <td class="text-end"><%= format_money(line_item.quoted_price) %></td>
@@ -59,9 +59,7 @@
         <tfoot>
           <tr>
             <th scope="row" colspan="2">Total charged</th>
-            <th class="text-end">
-              <%= format_money(@repair_job.repair_line_items.sum { |li| li.actual_price || li.quoted_price || 0 }) %>
-            </th>
+            <th class="text-end"><%= format_money(@repair_job.total) %></th>
           </tr>
         </tfoot>
       </table>

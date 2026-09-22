@@ -6,7 +6,7 @@
   <p>Owned by <%= link_to @bike.customer.full_name, customer_path(@bike.customer) %></p>
 
   <h2 class="h4 mt-5">Repairs</h2>
-  <% if @bike.repair_jobs.empty? %>
+  <% if @repair_jobs.empty? %>
     <p class="text-muted">This bike has never been in for a repair.</p>
   <% else %>
     <div class="table-responsive mt-3">
@@ -21,7 +21,7 @@
           </tr>
         </thead>
         <tbody>
-          <%= render @bike.repair_jobs.order(received_at: :desc) %>
+          <%= render @repair_jobs %>
         </tbody>
       </table>
     </div>
