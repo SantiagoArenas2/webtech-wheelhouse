@@ -1,0 +1,6 @@
+<% content_for :title, "Edit repair ##{@repair_job.id} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Repair</p>
+  <h1>Edit repair #<%= @repair_job.id %></h1>
+  <%= render "form", repair_job: @repair_job %>
+</section>

@@ -17,6 +17,10 @@ class RepairJob < ApplicationRecord
   has_many :repair_line_items, dependent: :destroy
   has_many :services, through: :repair_line_items, source: :service_catalogue_item
 
+  accepts_nested_attributes_for :repair_line_items,
+    reject_if: proc { |attrs| attrs["service_catalogue_item_id"].blank? },
+    allow_destroy: true
+
   scope :newest_first, -> { order(received_at: :desc) }
   scope :open, -> { where.not(status: statuses[:picked_up]) }
   scope :overdue, -> { open.where("promised_by < ?", Date.current) }

@@ -1,0 +1,20 @@
+<%= form_with model: customer, class: "row g-3" do |f| %>
+  <%= render "shared/error_messages", object: customer %>
+
+  <div class="col-md-6">
+    <%= f.label :full_name, class: "form-label" %>
+    <%= f.text_field :full_name, class: "form-control #{"is-invalid" if customer.errors[:full_name].any?}" %>
+    <% customer.errors[:full_name].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-md-6">
+    <%= f.label :phone, class: "form-label" %>
+    <%= f.text_field :phone, class: "form-control #{"is-invalid" if customer.errors[:phone].any?}" %>
+    <% customer.errors[:phone].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-12 d-flex gap-2">
+    <%= f.submit class: "btn btn-coral" %>
+    <%= link_to "Cancel", (customer.persisted? ? customer : customers_path), class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

@@ -1,0 +1,6 @@
+<% content_for :title, "Edit #{@bike.brand} #{@bike.model} | Wheelhouse" %>
+<section class="container py-5">
+  <p class="eyebrow">Bike</p>
+  <h1>Edit <%= @bike.brand %> <%= @bike.model %></h1>
+  <%= render "form", bike: @bike %>
+</section>

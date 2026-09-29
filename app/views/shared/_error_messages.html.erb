@@ -1,0 +1,10 @@
+<% if object.errors.any? %>
+  <div class="alert alert-danger">
+    <p class="fw-semibold mb-2"><%= pluralize(object.errors.count, "error") %> stopped this from saving:</p>
+    <ul class="mb-0">
+      <% object.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -1,7 +1,10 @@
 <% content_for :title, "Staff | Wheelhouse" %>
 <section class="container py-5">
   <p class="eyebrow">Behind the counter and on the bench</p>
-  <h1>Staff</h1>
+  <div class="d-flex justify-content-between align-items-center">
+    <h1 class="mb-0">Staff</h1>
+    <%= link_to "New staff member", new_staff_member_path, class: "btn btn-coral" %>
+  </div>
 
   <% if @staff_members.empty? %>
     <p class="lead mt-4">No staff on record.</p>

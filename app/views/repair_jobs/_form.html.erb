@@ -1,0 +1,56 @@
+<%= form_with model: repair_job, url: (repair_job.persisted? ? repair_path(repair_job) : repairs_path), class: "row g-3" do |f| %>
+  <%= render "shared/error_messages", object: repair_job %>
+
+  <div class="col-md-4">
+    <%= f.label :bike_id, "Bike", class: "form-label" %>
+    <%= f.collection_select :bike_id, @bikes, :id, ->(bike) { "#{bike.brand} #{bike.model} — #{bike.serial_number} (#{bike.customer.full_name})" }, { include_blank: true }, class: "form-select #{"is-invalid" if repair_job.errors[:bike_id].any?}" %>
+    <% repair_job.errors[:bike_id].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-md-4">
+    <%= f.label :received_by_staff_id, "Received by", class: "form-label" %>
+    <%= f.collection_select :received_by_staff_id, @staff_members, :id, :full_name, { include_blank: true }, class: "form-select #{"is-invalid" if repair_job.errors[:received_by_staff_id].any?}" %>
+    <% repair_job.errors[:received_by_staff_id].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-md-4">
+    <%= f.label :status, class: "form-label" %>
+    <%= f.select :status, RepairJob.statuses.keys.map { |key| [ key.humanize, key ] }, {}, class: "form-select" %>
+  </div>
+
+  <div class="col-md-3">
+    <%= f.label :received_at, "Received", class: "form-label" %>
+    <%= f.datetime_field :received_at, class: "form-control #{"is-invalid" if repair_job.errors[:received_at].any?}" %>
+    <% repair_job.errors[:received_at].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-md-3">
+    <%= f.label :promised_by, class: "form-label" %>
+    <%= f.date_field :promised_by, class: "form-control #{"is-invalid" if repair_job.errors[:promised_by].any?}" %>
+    <% repair_job.errors[:promised_by].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-md-3">
+    <%= f.label :ready_at, "Ready", class: "form-label" %>
+    <%= f.datetime_field :ready_at, class: "form-control #{"is-invalid" if repair_job.errors[:ready_at].any?}" %>
+    <% repair_job.errors[:ready_at].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-md-3">
+    <%= f.label :picked_up_at, "Picked up", class: "form-label" %>
+    <%= f.datetime_field :picked_up_at, class: "form-control #{"is-invalid" if repair_job.errors[:picked_up_at].any?}" %>
+    <% repair_job.errors[:picked_up_at].each do |message| %><div class="invalid-feedback"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-12">
+    <h2 class="h5 mt-3">Services charged</h2>
+    <%= f.fields_for :repair_line_items do |line_fields| %>
+      <%= render "line_item_fields", f: line_fields %>
+    <% end %>
+  </div>
+
+  <div class="col-12 d-flex gap-2">
+    <%= f.submit class: "btn btn-coral" %>
+    <%= link_to "Cancel", (repair_job.persisted? ? repair_job : repairs_path), class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>
