@@ -1,4 +1,7 @@
 class RepairJob < ApplicationRecord
+  INTAKE_PHOTO_MAX_SIZE = 5.megabytes
+  INTAKE_PHOTO_CONTENT_TYPES = %w[image/jpeg image/png].freeze
+
   enum :status, {
     received: "received",
     awaiting_diagnosis: "awaiting_diagnosis",
@@ -16,6 +19,13 @@ class RepairJob < ApplicationRecord
 
   has_many :repair_line_items, dependent: :destroy
   has_many :services, through: :repair_line_items, source: :service_catalogue_item
+  has_many_attached :intake_photos, dependent: :purge_later do |photos|
+    photos.variant :thumbnail, resize_to_fill: [ 120, 90 ]
+    photos.variant :display, resize_to_limit: [ 1200, 1200 ]
+  end
+  has_rich_text :diagnosis
+
+  attr_accessor :intake_photo_uploads
 
   accepts_nested_attributes_for :repair_line_items,
     reject_if: proc { |attrs| attrs["service_catalogue_item_id"].blank? },
@@ -30,6 +40,7 @@ class RepairJob < ApplicationRecord
 
   validate :repair_dates_are_in_order
   validate :status_matches_recorded_events
+  validate :intake_photos_are_valid
 
   def overdue?
     !picked_up? && promised_by.present? && promised_by < Date.current
@@ -69,5 +80,20 @@ class RepairJob < ApplicationRecord
 
   def quoted_line_item_missing_answer?
     repair_line_items.any? { |line| line.quoted_price.present? && line.approved_by_customer.nil? }
+  end
+
+  def intake_photos_are_valid
+    Array(intake_photo_uploads).compact_blank.each do |upload|
+      filename = upload.original_filename
+      content_type = Marcel::MimeType.for(upload.tempfile, name: filename)
+
+      unless INTAKE_PHOTO_CONTENT_TYPES.include?(content_type)
+        errors.add(:intake_photos, "#{filename} must be a JPEG or PNG image")
+      end
+
+      if upload.size > INTAKE_PHOTO_MAX_SIZE
+        errors.add(:intake_photos, "#{filename} must be no larger than 5 MB")
+      end
+    end
   end
 end

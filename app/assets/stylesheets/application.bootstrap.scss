@@ -3,6 +3,7 @@ $secondary: #e9e1d2;
 $font-family-sans-serif: "Trebuchet MS", "Segoe UI", sans-serif;
 
 @import "bootstrap/scss/bootstrap";
+@import "trix/dist/trix.css";
 
 :root { --ink: #153f43; --coral: #e36b4f; --paper: #f7f4ee; }
 body { background: var(--paper); color: var(--ink); }
@@ -13,3 +14,9 @@ body { background: var(--paper); color: var(--ink); }
 .eyebrow { color: var(--coral); font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .btn-coral { --bs-btn-color: #fff; --bs-btn-bg: var(--coral); --bs-btn-border-color: var(--coral); --bs-btn-hover-bg: #c9543d; --bs-btn-hover-border-color: #c9543d; }
 .table { --bs-table-bg: transparent; }
+.repair-thumbnail { width: 120px; height: 90px; display: flex; align-items: center; justify-content: center; }
+.repair-thumbnail img { width: 120px; height: 90px; object-fit: cover; }
+.repair-photo { width: min(100%, 360px); }
+.repair-photo img { max-width: 100%; height: auto; }
+.repair-diagnosis { display: block; max-width: 24rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+trix-toolbar .trix-button-row { display: flex; flex-wrap: wrap; }

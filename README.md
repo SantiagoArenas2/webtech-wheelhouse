@@ -1,6 +1,6 @@
 # Wheelhouse
 
-Wheelhouse is a small Rails application for an independent bicycle workshop. It presents the public service price list, workshop details, and the story behind the shop, backed by a seeded PostgreSQL schema. This is the Lab 5 application, built on the Lab 3 domain model and the Lab 4 application.
+Wheelhouse is a Rails 8 application for an independent bicycle workshop. It manages customers, bikes, repairs and services, including repair intake photos and rich-text diagnoses.
 
 ## Project documents
 
@@ -9,47 +9,67 @@ Wheelhouse is a small Rails application for an independent bicycle workshop. It 
 - [Design decisions](docs/decisions.md)
 - [Wireframes](docs/wireframes.md)
 
-## Requirements
+## Prerequisites
 
-- Ruby 3.3.12 (Ruby 4.0.4 also works with the assignment setup)
-- Rails 8.0.5.1
+- Ruby 3.3.12 with RubyInstaller and its MSYS2 development tools
+- Rails 8.0.5.1 (installed by Bundler)
 - Node.js 24.16.0 and npm 11.13.0
-- PostgreSQL 17, with the role named in `config/database.yml` (defaults to
-  the `PGUSER`/`PGPASSWORD` environment variables, falling back to `postgres`)
+- PostgreSQL 17, running locally on port 5433. The role is selected by
+  `PGUSER`/`PGPASSWORD` and defaults to `postgres`.
+- libvips, used to generate photo thumbnails. In the RubyInstaller MSYS2
+  UCRT64 shell, install it with:
 
-On Windows, install Ruby with RubyInstaller and its MSYS2 development tools. PostgreSQL must be running locally and the current Windows user must be allowed to create databases.
+  ```sh
+  pacman -S mingw-w64-ucrt-x86_64-libvips
+  ```
 
-## Setup
+See the [libvips installation guide](https://www.libvips.org/install.html) for
+other operating systems.
 
-Clone the repository and run these commands from its root:
+## Setup on Windows
 
-```text
+Clone the repository, open PowerShell in the project folder, and run:
+
+```powershell
 bundle install
 npm install
-$env:PGUSER="postgres"
-$env:PGPASSWORD="your-local-postgres-password"
-bin/rails db:create db:migrate db:seed
+$env:PGUSER = "postgres"
+$env:PGPASSWORD = "your-local-postgres-password"
+ruby .\bin\rails db:prepare
+ruby .\bin\rails db:seed
+npm run build:css
 ```
 
-That last line is the one command that takes a fresh clone to a running,
-seeded application: it creates the development and test databases, runs
-every migration in `db/migrate/` to build the schema, and loads
-`db/seeds.rb`.
+`db:prepare` creates the development database and runs all migrations,
+including Active Storage and Action Text. `db:seed` loads example repairs,
+photos and formatted diagnoses. The seeds are safe to run again.
 
-## Start the application
+## Run the application
 
-Run both the Rails server and the Sass watcher with:
+Start Rails from PowerShell:
 
-```text
-bin/dev
+```powershell
+ruby .\bin\rails server
 ```
 
-Then open http://localhost:3000. To start only Rails without rebuilding CSS, use `bin/rails server`.
+Then open http://localhost:3000. Rebuild the stylesheet after changing
+`app/assets/stylesheets/application.bootstrap.scss` with `npm run build:css`.
 
 Useful checks:
 
-```text
-bin/rails about
-bin/rails routes
-bin/rails db:migrate:status
+```powershell
+ruby .\bin\rails about
+ruby .\bin\rails routes
+ruby .\bin\rails db:migrate:status
 ```
+
+Development uploads are stored in the ignored `storage/` directory. The sample
+seed images are committed separately in `db/seeds/photos/` and are attributed
+below.
+
+### Seed image credits
+
+- [Bicycle workshop Ruyigi](https://commons.wikimedia.org/wiki/File:Bicycle_workshop_Ruyigi.JPG), Andreas31, CC BY-SA 3.0.
+- [Bicycle workshop in the Museu Isern de la Moto](https://commons.wikimedia.org/wiki/File:Bicycle_workshop_in_the_Museu_Isern_de_la_Moto.jpg), Peprovira, CC BY-SA 4.0.
+- [Bike workshop - bicycle repair shop](https://commons.wikimedia.org/wiki/File:Bike_workshop_-_bicycle_repair_shop.jpg), Alextredz, CC BY-SA 4.0.
+- [Edinburgh Bicycle Cooperative, Woodland Lane](https://commons.wikimedia.org/wiki/File:Edinburgh_Bicycle_Cooperative,_Woodland_Lane,_Chapel_Allerton_(16th_November_2013).JPG), Mtaylor848, CC BY-SA 3.0.

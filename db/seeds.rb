@@ -310,6 +310,51 @@ if RepairJob.count.zero?
   ).tap do |repair|
     seed_line_item(repair, current_services[:puncture_repair], quoted: 18, actual: 18, approved: true)
   end
+
+  diagnoses = {
+    repair_ethan_sirrus => "The front brake pads are <strong>worn close to the limit</strong>.<ul><li>Replace both pads.</li><li>True the front wheel.</li></ul>",
+    repair_grace_quick => "The drivetrain is <strong>overdue for a full service</strong>.<ul><li>Clean and lubricate the chain.</li><li>Inspect cables and bearings.</li></ul>",
+    repair_marco_marlin => "The chain is <strong>stretched beyond specification</strong>.<ul><li>Fit a replacement chain.</li><li>Adjust the rear derailleur.</li></ul>",
+    repair_isabel_talon => "The rear wheel is <strong>damaged beyond safe repair</strong>.<ul><li>Replace the wheel.</li><li>Check brake alignment.</li></ul>",
+    repair_tomas_aspect => "The bike received a <strong>complete safety service</strong>.<ul><li>Inspect frame and fork.</li><li>Verify all fasteners.</li></ul>",
+    repair_nina_rockhopper => "A puncture was found in the rear tube.<ul><li>Replace the tube.</li><li>Check the tyre for debris.</li></ul>",
+    repair_felipe_speeder => "The bottom bracket has <strong>excessive play</strong>.<ul><li>Replacement was recommended.</li><li>The customer declined the repair.</li></ul>",
+    repair_aisha_cube => "The disc brake needs a <strong>fluid bleed</strong>.<ul><li>Bleed the front brake.</li><li>Check both rotors and pads.</li></ul>",
+    repair_lucas_bianchi => "The cassette teeth are <strong>worn and skipping under load</strong>.<ul><li>Replace the cassette.</li><li>Inspect chain wear.</li></ul>",
+    repair_camila_escape_earlier => "The rear tube had a small puncture.<ul><li>Replace the tube.</li><li>Check the rim tape.</li></ul>",
+    repair_daniel_marlin_earlier => "The brakes needed a <strong>cable and pad adjustment</strong>.<ul><li>Set cable tension.</li><li>Center the caliper.</li></ul>"
+  }
+  diagnoses.each { |repair, diagnosis| repair.update!(diagnosis: diagnosis) }
+
+  seed_photos = %w[
+    workshop-ruyigi.jpg
+    museum-workshop.jpg
+    bike-repair-shop.jpg
+    edinburgh-cooperative.jpg
+  ].map { |filename| Rails.root.join("db/seeds/photos", filename) }
+  photo_repairs = [
+    repair_daniel_marlin_current,
+    repair_ethan_sirrus,
+    repair_grace_quick,
+    repair_marco_marlin,
+    repair_isabel_talon,
+    repair_tomas_aspect,
+    repair_nina_rockhopper,
+    repair_felipe_speeder,
+    repair_aisha_cube,
+    repair_lucas_bianchi,
+    repair_camila_escape_earlier,
+    repair_daniel_marlin_earlier
+  ]
+
+  photo_repairs.each_with_index do |repair, index|
+    paths = index.zero? ? seed_photos : [ seed_photos[(index - 1) % seed_photos.length] ]
+    paths.each do |path|
+      File.open(path, "rb") do |file|
+        repair.intake_photos.attach(io: file, filename: path.basename.to_s, content_type: "image/jpeg")
+      end
+    end
+  end
 else
   puts "Repairs already seeded — skipping."
 end

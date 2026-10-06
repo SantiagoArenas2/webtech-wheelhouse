@@ -7,6 +7,7 @@ class RepairJobsController < ApplicationController
 
   def index
     @repair_jobs = RepairJob.newest_first.includes(:bike, :customer)
+      .with_attached_intake_photos.with_rich_text_diagnosis
   end
 
   def show
@@ -23,10 +24,12 @@ class RepairJobsController < ApplicationController
   end
 
   def create
-    @repair_job = RepairJob.new(repair_job_params)
+    @repair_job = RepairJob.new
+    assign_repair_job_attributes
     @repair_job.customer_id = @repair_job.bike&.customer_id
 
     if @repair_job.save
+      attach_intake_photos
       redirect_to @repair_job, notice: "Repair ##{@repair_job.id} was created."
     else
       EXTRA_LINE_ITEM_SLOTS_ON_EDIT.times { @repair_job.repair_line_items.build }
@@ -35,10 +38,11 @@ class RepairJobsController < ApplicationController
   end
 
   def update
-    @repair_job.assign_attributes(repair_job_params)
+    assign_repair_job_attributes
     @repair_job.customer_id = @repair_job.bike&.customer_id
 
     if @repair_job.save
+      attach_intake_photos
       redirect_to @repair_job, notice: "Repair ##{@repair_job.id} was updated."
     else
       EXTRA_LINE_ITEM_SLOTS_ON_EDIT.times { @repair_job.repair_line_items.build }
@@ -57,7 +61,8 @@ class RepairJobsController < ApplicationController
   private
 
   def set_repair_job
-    @repair_job = RepairJob.includes(:bike, :customer, :received_by_staff).find(params[:id])
+    @repair_job = RepairJob.with_attached_intake_photos.with_rich_text_diagnosis
+      .includes(:bike, :customer, :received_by_staff).find(params[:id])
   end
 
   def load_form_collections
@@ -70,8 +75,19 @@ class RepairJobsController < ApplicationController
   def repair_job_params
     params.expect(repair_job: [
       :bike_id, :received_by_staff_id, :status, :promised_by,
-      :received_at, :ready_at, :picked_up_at,
+      :received_at, :ready_at, :picked_up_at, :diagnosis, { intake_photos: [] },
       repair_line_items_attributes: [[ :id, :service_catalogue_item_id, :quoted_price, :actual_price, :approved_by_customer, :notes, :_destroy ]]
     ])
+  end
+
+  def assign_repair_job_attributes
+    attributes = repair_job_params
+    @repair_job.intake_photo_uploads = attributes.delete(:intake_photos)
+    @repair_job.assign_attributes(attributes)
+  end
+
+  def attach_intake_photos
+    uploads = Array(@repair_job.intake_photo_uploads).compact_blank
+    @repair_job.intake_photos.attach(uploads) if uploads.any?
   end
 end

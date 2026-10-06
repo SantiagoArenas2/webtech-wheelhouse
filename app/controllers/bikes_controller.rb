@@ -8,6 +8,7 @@ class BikesController < ApplicationController
 
   def show
     @repair_jobs = @bike.repair_jobs.newest_first.includes(:customer)
+      .with_attached_intake_photos.with_rich_text_diagnosis
   end
 
   def new

@@ -43,6 +43,19 @@
   </div>
 
   <div class="col-12">
+    <%= f.label :intake_photos, "Intake photos", class: "form-label" %>
+    <%= f.file_field :intake_photos, multiple: true, accept: "image/jpeg,image/png", class: "form-control #{"is-invalid" if repair_job.errors[:intake_photos].any?}" %>
+    <% repair_job.errors[:intake_photos].each do |message| %><div class="invalid-feedback d-block"><%= message %></div><% end %>
+    <div class="form-text">JPEG or PNG, up to 5 MB per photo.</div>
+  </div>
+
+  <div class="col-12">
+    <%= f.label :diagnosis, class: "form-label" %>
+    <%= f.rich_text_area :diagnosis, class: "form-control #{"is-invalid" if repair_job.errors[:diagnosis].any?}" %>
+    <% repair_job.errors[:diagnosis].each do |message| %><div class="invalid-feedback d-block"><%= message %></div><% end %>
+  </div>
+
+  <div class="col-12">
     <h2 class="h5 mt-3">Services charged</h2>
     <%= f.fields_for :repair_line_items do |line_fields| %>
       <%= render "line_item_fields", f: line_fields %>

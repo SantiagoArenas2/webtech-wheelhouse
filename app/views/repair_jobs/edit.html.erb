@@ -3,4 +3,16 @@
   <p class="eyebrow">Repair</p>
   <h1>Edit repair #<%= @repair_job.id %></h1>
   <%= render "form", repair_job: @repair_job %>
+  <% if @repair_job.intake_photos.attached? %>
+    <h2 class="h4 mt-5">Current intake photos</h2>
+    <div class="d-flex flex-wrap gap-3">
+      <% @repair_job.intake_photos_attachments.each do |attachment| %>
+        <% photo = attachment.blob %>
+        <figure class="repair-photo">
+          <%= image_tag photo.variant(:thumbnail), alt: "#{@repair_job.bike.brand} #{@repair_job.bike.model}, repair ##{@repair_job.id}", class: "img-thumbnail" %>
+          <%= button_to "Remove", repair_job_intake_photo_path(@repair_job, attachment.id, return_to: "edit"), method: :delete, class: "btn btn-sm btn-outline-danger mt-2", data: { turbo_confirm: "Remove this intake photo?" } %>
+        </figure>
+      <% end %>
+    </div>
+  <% end %>
 </section>

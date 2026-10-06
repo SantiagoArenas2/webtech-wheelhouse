@@ -34,6 +34,30 @@
     <dd class="col-sm-9"><%= format_instant(@repair_job.picked_up_at) %></dd>
   </dl>
 
+  <h2 class="h4 mt-5">Intake photos</h2>
+  <% if @repair_job.intake_photos.attached? %>
+    <div class="d-flex flex-wrap gap-3">
+      <% @repair_job.intake_photos_attachments.each do |attachment| %>
+        <% photo = attachment.blob %>
+        <figure class="repair-photo">
+          <%= link_to url_for(photo) do %>
+            <%= image_tag photo.variant(:display), alt: "#{@repair_job.bike.brand} #{@repair_job.bike.model}, repair ##{@repair_job.id}", class: "img-thumbnail" %>
+          <% end %>
+          <%= button_to "Remove", repair_job_intake_photo_path(@repair_job, attachment.id), method: :delete, class: "btn btn-sm btn-outline-danger mt-2", data: { turbo_confirm: "Remove this intake photo?" } %>
+        </figure>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-muted">No intake photos.</p>
+  <% end %>
+
+  <h2 class="h4 mt-5">Diagnosis</h2>
+  <% if @repair_job.diagnosis.present? %>
+    <div class="action-text-content"><%= @repair_job.diagnosis %></div>
+  <% else %>
+    <p class="text-muted">No diagnosis yet.</p>
+  <% end %>
+
   <h2 class="h4 mt-5">Services charged</h2>
   <% if @repair_line_items.empty? %>
     <p class="text-muted">No services charged on this repair yet.</p>

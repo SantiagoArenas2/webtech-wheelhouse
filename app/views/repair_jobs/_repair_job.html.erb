@@ -2,6 +2,16 @@
   <td><%= link_to "##{repair_job.id}", repair_path(repair_job) %></td>
   <td><%= link_to "#{repair_job.bike.brand} #{repair_job.bike.model}", bike_path(repair_job.bike) %></td>
   <td><%= link_to repair_job.customer.full_name, customer_path(repair_job.customer) %></td>
+  <td>
+    <div class="repair-thumbnail">
+      <% if repair_job.intake_photos.attached? %>
+        <%= image_tag repair_job.intake_photos.first.variant(:thumbnail), alt: "#{repair_job.bike.brand} #{repair_job.bike.model}, repair ##{repair_job.id}", class: "img-thumbnail" %>
+      <% else %>
+        <span class="visually-hidden">No intake photo</span>
+      <% end %>
+    </div>
+  </td>
+  <td><span class="repair-diagnosis"><%= repair_job.diagnosis.present? ? repair_job.diagnosis.to_plain_text.truncate(100) : "No diagnosis" %></span></td>
   <td><span class="badge <%= status_badge_class(repair_job) %>"><%= status_label(repair_job) %></span></td>
   <td>
     <%= format_day(repair_job.promised_by) %>

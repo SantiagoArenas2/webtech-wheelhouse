@@ -19,10 +19,16 @@
   "type": "commonjs",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "@rails/actiontext": "8.0.501",
+    "@rails/activestorage": "8.0.501",
     "bootstrap": "^5.3.8",
-    "sass": "^1.89.2"
+    "sass": "^1.89.2",
+    "trix": "2.1.19"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "concurrently": "9.2.4"
+  },
+  "overrides": {
+    "shell-quote": "1.12.0"
   }
 }
