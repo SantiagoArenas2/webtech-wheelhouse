@@ -8,6 +8,32 @@ Wheelhouse is a Rails 8 application for an independent bicycle workshop. It mana
 - [Domain model](docs/domain-model.md)
 - [Design decisions](docs/decisions.md)
 - [Wireframes](docs/wireframes.md)
+- [API v1 documentation](docs/api.md)
+
+## Lab 10 API
+
+The API runs on port `3000`. The personal page is a separate repository; after publishing it, replace the link below with its GitHub Pages URL:
+
+- [Published personal page](https://santiagoarenas2.github.io/webtech-lab-01/)
+
+Set the API token and both browser origins in encrypted Rails credentials. From PowerShell in the project directory, run `ruby .\bin\rails credentials:edit` and add the following YAML, replacing the GitHub Pages origin with the actual published page origin:
+
+```yaml
+api:
+  token: "generate-a-private-token"
+  allowed_origins:
+    - "https://santiagoarenas2.github.io"
+    - "http://localhost:5500"
+```
+
+The credentials file and `config/master.key` must not be committed. Keep the same token for requests that need authentication and use the local origin above when serving the personal page during development.
+
+Examples from PowerShell:
+
+```powershell
+curl.exe http://localhost:3000/api/v1/services
+curl.exe -H "Authorization: Bearer YOUR_TOKEN" http://localhost:3000/api/v1/repairs
+```
 
 ## Prerequisites
 

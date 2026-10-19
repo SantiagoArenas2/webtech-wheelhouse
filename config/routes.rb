@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  namespace :api, defaults: { format: :json } do
+    namespace :v1 do
+      resources :services, only: %i[index show create]
+      resources :repairs, only: %i[index show]
+    end
+  end
+
   root "pages#home"
   get "visit", to: "pages#visit", as: :visit
   get "about", to: "pages#about", as: :about

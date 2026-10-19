@@ -11,6 +11,13 @@ module Lab04
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
     config.assets.paths << Rails.root.join("node_modules")
+    api_origins = Rails.application.credentials.dig(:api, :allowed_origins) || []
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins(*api_origins)
+        resource "/api/v1/services*", headers: :any, methods: %i[get options]
+      end
+    end
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
