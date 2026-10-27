@@ -1,4 +1,6 @@
 class ServicesController < ApplicationController
+  allow_unauthenticated_access only: %i[ index show ]
+
   before_action :set_service, only: [ :show, :edit, :update, :destroy ]
   before_action :load_form_collections, only: [ :new, :edit, :create, :update ]
 
@@ -13,7 +15,9 @@ class ServicesController < ApplicationController
   end
 
   def show
-    @repair_line_items = @service.repair_line_items.in_order.includes(repair_job: :bike)
+    if current_user
+      @repair_line_items = @service.repair_line_items.in_order.includes(repair_job: :bike)
+    end
   end
 
   def new

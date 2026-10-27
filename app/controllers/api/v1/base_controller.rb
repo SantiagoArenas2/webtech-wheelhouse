@@ -1,6 +1,8 @@
 module Api
   module V1
     class BaseController < ActionController::API
+      include ActionController::HttpAuthentication::Token::ControllerMethods
+
       rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
       rescue_from ActionController::ParameterMissing,
         ActionController::BadRequest,

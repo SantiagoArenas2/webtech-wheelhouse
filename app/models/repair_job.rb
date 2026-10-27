@@ -16,6 +16,7 @@ class RepairJob < ApplicationRecord
   belongs_to :bike, inverse_of: :repair_jobs
   belongs_to :customer
   belongs_to :received_by_staff, class_name: "StaffMember", foreign_key: :received_by_staff_id, inverse_of: :repair_jobs
+  belongs_to :received_by_user, class_name: "User", optional: true
 
   has_many :repair_line_items, dependent: :destroy
   has_many :services, through: :repair_line_items, source: :service_catalogue_item

@@ -18,6 +18,9 @@
     <dt class="col-sm-3">Received by</dt>
     <dd class="col-sm-9"><%= link_to @repair_job.received_by_staff.full_name, staff_member_path(@repair_job.received_by_staff) %></dd>
 
+    <dt class="col-sm-3">Taken in by</dt>
+    <dd class="col-sm-9"><%= @repair_job.received_by_user&.staff_member&.full_name || @repair_job.received_by_user&.email_address || "Not recorded" %></dd>
+
     <dt class="col-sm-3">Received</dt>
     <dd class="col-sm-9"><%= format_instant(@repair_job.received_at) %></dd>
 

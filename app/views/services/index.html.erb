@@ -3,7 +3,7 @@
   <p class="eyebrow">The workshop wall</p>
   <div class="d-flex justify-content-between align-items-center">
     <h1 class="mb-0">Services and prices</h1>
-    <%= link_to "New service", new_service_path, class: "btn btn-coral" %>
+    <% if current_user %><%= link_to "New service", new_service_path, class: "btn btn-coral" %><% end %>
   </div>
   <p class="lead col-lg-8">A straightforward list of the jobs we do. Prices are starting prices and we will talk through anything unusual first.</p>
 

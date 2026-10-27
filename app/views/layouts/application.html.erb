@@ -24,20 +24,28 @@
   <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-ink">
       <div class="container">
-        <%= link_to "Wheelhouse", root_path, class: "navbar-brand fw-bold" %>
+        <%= link_to "Wheelhouse", current_user ? root_path : services_path, class: "navbar-brand fw-bold" %>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavigation" aria-controls="mainNavigation" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNavigation">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %></li>
             <li class="nav-item"><%= link_to "Services", services_path, class: "nav-link #{'active' if current_page?(services_path)}" %></li>
-            <li class="nav-item"><%= link_to "Customers", customers_path, class: "nav-link #{'active' if current_page?(customers_path)}" %></li>
-            <li class="nav-item"><%= link_to "Bikes", bikes_path, class: "nav-link #{'active' if current_page?(bikes_path)}" %></li>
-            <li class="nav-item"><%= link_to "Repairs", repairs_path, class: "nav-link #{'active' if current_page?(repairs_path)}" %></li>
-            <li class="nav-item"><%= link_to "Staff", staff_members_path, class: "nav-link #{'active' if current_page?(staff_members_path)}" %></li>
-            <li class="nav-item"><%= link_to "Visit the workshop", visit_path, class: "nav-link #{'active' if current_page?(visit_path)}" %></li>
-            <li class="nav-item"><%= link_to "About", about_path, class: "nav-link #{'active' if current_page?(about_path)}" %></li>
+            <% if current_user %>
+              <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link #{'active' if current_page?(root_path)}" %></li>
+              <li class="nav-item"><%= link_to "Customers", customers_path, class: "nav-link #{'active' if current_page?(customers_path)}" %></li>
+              <li class="nav-item"><%= link_to "Bikes", bikes_path, class: "nav-link #{'active' if current_page?(bikes_path)}" %></li>
+              <li class="nav-item"><%= link_to "Repairs", repairs_path, class: "nav-link #{'active' if current_page?(repairs_path)}" %></li>
+              <li class="nav-item"><%= link_to "Staff", staff_members_path, class: "nav-link #{'active' if current_page?(staff_members_path)}" %></li>
+              <li class="nav-item"><%= link_to "Visit the workshop", visit_path, class: "nav-link #{'active' if current_page?(visit_path)}" %></li>
+              <li class="nav-item"><%= link_to "About", about_path, class: "nav-link #{'active' if current_page?(about_path)}" %></li>
+              <li class="nav-item d-flex align-items-center ms-lg-3 text-white">
+                <span class="small"><strong><%= current_user.staff_member&.full_name || current_user.email_address %></strong> · <%= current_user.role.humanize %></span>
+              </li>
+              <li class="nav-item"><%= button_to "Sign out", session_path, method: :delete, class: "btn btn-sm btn-outline-light ms-lg-3 mt-2 mt-lg-0" %></li>
+            <% else %>
+              <li class="nav-item"><%= link_to "Sign in", new_session_path, class: "nav-link #{'active' if current_page?(new_session_path)}" %></li>
+            <% end %>
           </ul>
         </div>
       </div>

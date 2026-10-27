@@ -19,3 +19,13 @@ The description gives a good starting point, but there are a few things that are
 **Assumption used to keep working:** The public list is the standard catalogue, but the shop may still charge less for a repair if it is a regular customer or the work is easier than expected. The final agreed amount is stored on the repair line item, while the published list price is kept for reference.
 
 **What would change if the answer were different:** If discounts were never allowed, the model could be simpler and the final amount would always match the list price. If discounts had formal rules by customer type, we would need a separate policy or customer segment concept.
+
+## 4. Which account role should be the default?
+
+**Decision:** New accounts default to `mechanic`, the least-privileged role. Mechanics are responsible for diagnosis and repair work, while the counter role handles customer intake and the owner role is responsible for workshop oversight. That makes the mechanic role the safest default for an account that has not yet been assigned to a staff member.
+
+**What would change if the answer were different:** If the workshop changes how it divides its work, the default role and the account's assigned staff member should be reviewed together. Customers do not receive accounts.
+
+## 5. How does an account relate to staff and repairs?
+
+**Decision:** A staff member can have one account, and an account may remain unassigned. A repair keeps the existing staff record and also records the signed-in account that took it in; older repairs may have no account recorded.

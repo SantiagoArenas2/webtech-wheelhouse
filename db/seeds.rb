@@ -1,9 +1,29 @@
 puts "Seeding staff members..."
 
+owner_staff = StaffMember.find_or_create_by!(full_name: "Alex Rivera", role: "owner")
 counter_staff = StaffMember.find_or_create_by!(full_name: "Nora Higgins", role: "counter")
 mechanic_one  = StaffMember.find_or_create_by!(full_name: "Miguel Santos", role: "mechanic")
 mechanic_two  = StaffMember.find_or_create_by!(full_name: "Priya Anand", role: "mechanic")
 mechanic_three = StaffMember.find_or_create_by!(full_name: "Owen Baxter", role: "mechanic")
+
+def seed_user(email_address, password, staff_member: nil, role: nil)
+  user = User.find_or_initialize_by(email_address: email_address)
+  user.password = password
+  user.password_confirmation = password
+  user.staff_member = staff_member
+  user.role = role if role
+  user.save!
+  user
+end
+
+seed_users = [
+  seed_user("owner@wheelhouse.cl", "OwnerWheelhouse26!", staff_member: owner_staff, role: "owner"),
+  seed_user("nora@wheelhouse.cl", "NoraWheelhouse26!", staff_member: counter_staff, role: "counter"),
+  seed_user("miguel@wheelhouse.cl", "MiguelWheelhouse26!", staff_member: mechanic_one, role: "mechanic"),
+  seed_user("priya@wheelhouse.cl", "PriyaWheelhouse26!", staff_member: mechanic_two, role: "mechanic"),
+  seed_user("owen@wheelhouse.cl", "OwenWheelhouse26!", staff_member: mechanic_three, role: "mechanic"),
+  seed_user("trainee@wheelhouse.cl", "TraineeWheelhouse26!")
+]
 
 puts "Seeding customers..."
 
@@ -359,6 +379,12 @@ else
   puts "Repairs already seeded — skipping."
 end
 
+RepairJob.order(:id).each_with_index do |repair, index|
+  next if index < 2
+
+  repair.update!(received_by_user: seed_users[(index - 2) % seed_users.length])
+end
+
 puts "Done. #{Customer.count} customers, #{Bike.count} bikes, #{StaffMember.count} staff, " \
      "#{PriceList.count} price lists, #{ServiceCatalogueItem.count} services, " \
-     "#{RepairJob.count} repairs, #{RepairLineItem.count} repair line items."
+     "#{RepairJob.count} repairs, #{RepairLineItem.count} repair line items, #{User.count} accounts."

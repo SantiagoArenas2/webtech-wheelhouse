@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :users, only: %i[ new create ]
+
+  resource :session
+  resources :passwords, param: :token
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :services, only: %i[index show create]

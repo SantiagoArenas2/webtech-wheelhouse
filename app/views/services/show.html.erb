@@ -4,36 +4,40 @@
   <h1><%= @service.name %></h1>
   <p class="lead"><%= format_money(@service.list_price) %> on the <%= @service.price_list.year %> price list</p>
 
-  <h2 class="h4 mt-5">Repairs that used this service</h2>
-  <% if @repair_line_items.empty? %>
-    <p class="text-muted">This service has not been charged on any repair yet.</p>
-  <% else %>
-    <div class="table-responsive mt-3">
-      <table class="table table-hover align-middle">
-        <thead>
-          <tr>
-            <th scope="col">Repair</th>
-            <th scope="col">Bike</th>
-            <th scope="col" class="text-end">Charged</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @repair_line_items.each do |line_item| %>
+  <% if current_user %>
+    <h2 class="h4 mt-5">Repairs that used this service</h2>
+    <% if @repair_line_items.empty? %>
+      <p class="text-muted">This service has not been charged on any repair yet.</p>
+    <% else %>
+      <div class="table-responsive mt-3">
+        <table class="table table-hover align-middle">
+          <thead>
             <tr>
-              <td><%= link_to "##{line_item.repair_job.id}", repair_path(line_item.repair_job) %></td>
-              <td><%= link_to "#{line_item.repair_job.bike.brand} #{line_item.repair_job.bike.model}", bike_path(line_item.repair_job.bike) %></td>
-              <td class="text-end"><%= format_money(line_item.actual_price) %></td>
+              <th scope="col">Repair</th>
+              <th scope="col">Bike</th>
+              <th scope="col" class="text-end">Charged</th>
             </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            <% @repair_line_items.each do |line_item| %>
+              <tr>
+                <td><%= link_to "##{line_item.repair_job.id}", repair_path(line_item.repair_job) %></td>
+                <td><%= link_to "#{line_item.repair_job.bike.brand} #{line_item.repair_job.bike.model}", bike_path(line_item.repair_job.bike) %></td>
+                <td class="text-end"><%= format_money(line_item.actual_price) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   <% end %>
 
-  <div class="d-flex flex-wrap gap-2 mt-4">
-    <%= link_to "Edit", edit_service_path(@service), class: "btn btn-outline-secondary" %>
-    <%= button_to "Delete", service_path(@service), method: :delete, class: "btn btn-outline-danger", data: { turbo_confirm: "Delete #{@service.name}? This can't be undone." } %>
-  </div>
+  <% if current_user %>
+    <div class="d-flex flex-wrap gap-2 mt-4">
+      <%= link_to "Edit", edit_service_path(@service), class: "btn btn-outline-secondary" %>
+      <%= button_to "Delete", service_path(@service), method: :delete, class: "btn btn-outline-danger", data: { turbo_confirm: "Delete #{@service.name}? This can't be undone." } %>
+    </div>
+  <% end %>
 
   <%= link_to "← Back to services", services_path, class: "d-inline-block mt-3" %>
 </section>

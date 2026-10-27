@@ -2,6 +2,7 @@
   <td><%= link_to "##{repair_job.id}", repair_path(repair_job) %></td>
   <td><%= link_to "#{repair_job.bike.brand} #{repair_job.bike.model}", bike_path(repair_job.bike) %></td>
   <td><%= link_to repair_job.customer.full_name, customer_path(repair_job.customer) %></td>
+  <td><%= repair_job.received_by_user&.staff_member&.full_name || repair_job.received_by_user&.email_address || "Not recorded" %></td>
   <td>
     <div class="repair-thumbnail">
       <% if repair_job.intake_photos.attached? %>

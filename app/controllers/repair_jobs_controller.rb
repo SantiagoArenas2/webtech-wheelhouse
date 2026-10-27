@@ -6,7 +6,7 @@ class RepairJobsController < ApplicationController
   before_action :load_form_collections, only: [ :new, :edit, :create, :update ]
 
   def index
-    @repair_jobs = RepairJob.newest_first.includes(:bike, :customer)
+    @repair_jobs = RepairJob.newest_first.includes(:bike, :customer, received_by_user: :staff_member)
       .with_attached_intake_photos.with_rich_text_diagnosis
   end
 
@@ -27,10 +27,11 @@ class RepairJobsController < ApplicationController
     @repair_job = RepairJob.new
     assign_repair_job_attributes
     @repair_job.customer_id = @repair_job.bike&.customer_id
+    @repair_job.received_by_user = current_user
 
     if @repair_job.save
       attach_intake_photos
-      redirect_to @repair_job, notice: "Repair ##{@repair_job.id} was created."
+      redirect_to repair_path(@repair_job), notice: "Repair ##{@repair_job.id} was created."
     else
       EXTRA_LINE_ITEM_SLOTS_ON_EDIT.times { @repair_job.repair_line_items.build }
       render :new, status: :unprocessable_entity
@@ -43,7 +44,7 @@ class RepairJobsController < ApplicationController
 
     if @repair_job.save
       attach_intake_photos
-      redirect_to @repair_job, notice: "Repair ##{@repair_job.id} was updated."
+      redirect_to repair_path(@repair_job), notice: "Repair ##{@repair_job.id} was updated."
     else
       EXTRA_LINE_ITEM_SLOTS_ON_EDIT.times { @repair_job.repair_line_items.build }
       render :edit, status: :unprocessable_entity
@@ -54,7 +55,7 @@ class RepairJobsController < ApplicationController
     if @repair_job.destroy
       redirect_to repairs_path, notice: "Repair ##{@repair_job.id} was removed.", status: :see_other
     else
-      redirect_to @repair_job, alert: @repair_job.errors.full_messages.to_sentence, status: :see_other
+      redirect_to repair_path(@repair_job), alert: @repair_job.errors.full_messages.to_sentence, status: :see_other
     end
   end
 
@@ -62,7 +63,7 @@ class RepairJobsController < ApplicationController
 
   def set_repair_job
     @repair_job = RepairJob.with_attached_intake_photos.with_rich_text_diagnosis
-      .includes(:bike, :customer, :received_by_staff).find(params[:id])
+      .includes(:bike, :customer, :received_by_staff, received_by_user: :staff_member).find(params[:id])
   end
 
   def load_form_collections

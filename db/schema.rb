@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_10_06_193058) do
+ActiveRecord::Schema[8.0].define(version: 2026_10_27_203900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -29,7 +29,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_06_193058) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -42,7 +42,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_06_193058) do
     t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
-    t.datetime "created_at", precision: 6, null: false
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -90,9 +90,11 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_06_193058) do
     t.datetime "picked_up_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "received_by_user_id"
     t.index ["bike_id"], name: "index_repair_jobs_on_bike_id"
     t.index ["customer_id"], name: "index_repair_jobs_on_customer_id"
     t.index ["received_by_staff_id"], name: "index_repair_jobs_on_received_by_staff_id"
+    t.index ["received_by_user_id"], name: "index_repair_jobs_on_received_by_user_id"
     t.index ["status"], name: "index_repair_jobs_on_status"
   end
 
@@ -119,11 +121,32 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_06_193058) do
     t.index ["price_list_id"], name: "index_service_catalogue_items_on_price_list_id"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
   create_table "staff_members", force: :cascade do |t|
     t.string "full_name", null: false
     t.string "role", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email_address", null: false
+    t.string "password_digest", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "role", default: "mechanic", null: false
+    t.bigint "staff_member_id"
+    t.index "lower((email_address)::text)", name: "index_users_on_lower_email_address", unique: true
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index ["staff_member_id"], name: "index_users_on_staff_member_id", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -132,7 +155,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_10_06_193058) do
   add_foreign_key "repair_jobs", "bikes"
   add_foreign_key "repair_jobs", "customers"
   add_foreign_key "repair_jobs", "staff_members", column: "received_by_staff_id"
+  add_foreign_key "repair_jobs", "users", column: "received_by_user_id"
   add_foreign_key "repair_line_items", "repair_jobs"
   add_foreign_key "repair_line_items", "service_catalogue_items"
   add_foreign_key "service_catalogue_items", "price_lists"
+  add_foreign_key "sessions", "users"
+  add_foreign_key "users", "staff_members"
 end

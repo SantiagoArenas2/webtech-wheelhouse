@@ -35,6 +35,30 @@ curl.exe http://localhost:3000/api/v1/services
 curl.exe -H "Authorization: Bearer YOUR_TOKEN" http://localhost:3000/api/v1/repairs
 ```
 
+## Lab 11 accounts and email
+
+The application uses Rails' native authentication generator. All pages except the public services
+list and service details require a signed-in workshop account. Sign-up is available from the
+sign-in page; customers do not have accounts.
+
+The following example accounts are created by `db:seed`. Their passwords are for development
+only; do not use them in a deployed application.
+
+| Email | Role | Development password |
+|---|---|---|
+| owner@wheelhouse.cl | owner | `OwnerWheelhouse26!` |
+| nora@wheelhouse.cl | counter | `NoraWheelhouse26!` |
+| miguel@wheelhouse.cl | mechanic | `MiguelWheelhouse26!` |
+| priya@wheelhouse.cl | mechanic | `PriyaWheelhouse26!` |
+| owen@wheelhouse.cl | mechanic | `OwenWheelhouse26!` |
+| trainee@wheelhouse.cl | mechanic (default role, no staff member) | `TraineeWheelhouse26!` |
+
+Development email is not sent to an external provider. Rails writes delivered messages to
+`tmp/mail/`. The welcome email preview is at
+http://localhost:3000/rails/mailers/welcome_mailer/welcome; the password reset email preview is at
+http://localhost:3000/rails/mailers/passwords_mailer/reset. A reset email's local link opens the
+password form in this application.
+
 ## Prerequisites
 
 - Ruby 3.3.12 with RubyInstaller and its MSYS2 development tools

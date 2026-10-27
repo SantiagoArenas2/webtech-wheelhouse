@@ -1,0 +1,26 @@
+<% content_for :title, "Sign in | Wheelhouse" %>
+<section class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+      <p class="eyebrow">Workshop team</p>
+      <h1 class="h2 mb-4">Sign in</h1>
+      <%= form_with url: session_path, class: "row g-3" do |form| %>
+        <div class="col-12">
+          <%= form.label :email_address, "Email address", class: "form-label" %>
+          <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username",
+            value: params[:email_address], class: "form-control" %>
+        </div>
+        <div class="col-12">
+          <%= form.label :password, class: "form-label" %>
+          <%= form.password_field :password, required: true, autocomplete: "current-password",
+            maxlength: 72, class: "form-control" %>
+        </div>
+        <div class="col-12"><%= form.submit "Sign in", class: "btn btn-coral" %></div>
+      <% end %>
+      <div class="mt-4 d-flex flex-column gap-2">
+        <%= link_to "Forgot your password?", new_password_path %>
+        <%= link_to "Create an account", new_user_path %>
+      </div>
+    </div>
+  </div>
+</section>

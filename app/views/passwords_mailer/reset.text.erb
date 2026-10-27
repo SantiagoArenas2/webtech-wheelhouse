@@ -1,0 +1,4 @@
+Wheelhouse received a request to reset the password for <%= @user.email_address %>.
+
+You can reset your password within the next 15 minutes on this password reset page:
+<%= edit_password_url(@user.password_reset_token) %>
